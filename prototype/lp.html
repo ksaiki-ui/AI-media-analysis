@@ -4,536 +4,532 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>無料メディア診断｜AIメディアくん</title>
-<meta name="description" content="URLを入れるだけ。同業3社と比べて、オウンドメディアで取れている／取れていないテーマを約10ページのレポートにして無料でお届けします。">
+<meta name="description" content="URLを入れるだけ。同業3社と比べて、オウンドメディアで取れている／取れていないテーマをレポートにして無料でお届けします。メディアがなくても診断できます。">
 <style>
-:root{--pg:#0F5C3F;--dg:#0A3F2B;--lg:#E8F4ED;--ag:#3CAA5C;--tx:#1A1A1A;--gy:#4A4A4A;--lt:#6B6B6B;--bd:#E5E7EB;
- --bg:#fff;--soft:#F6F9F7;--nt:#B85042;--wb:#FBF8EE;--wt:#8A6A2F;--yl:#F4C542;--g1:#D8EDDF;--g2:#A6D6B4;--g3:#5FB57A;--g4:#1F7A4D;}
+:root{--pg:#0F5C3F;--dg:#0A3F2B;--lg:#E8F4ED;--ag:#3CAA5C;--tx:#1A1A1A;--gy:#4A4A4A;--lt:#6B6B6B;--bd:#E3E8E5;
+ --bg:#fff;--soft:#F4F8F5;--nt:#B85042;--wb:#FBF8EE;--wt:#8A6A2F;--or:#F39A2B;--or2:#E07F12;--g1:#D8EDDF;--g2:#A6D6B4;--g3:#5FB57A;--g4:#1F7A4D;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;color:var(--tx);background:var(--bg);
  line-height:1.8;-webkit-font-smoothing:antialiased;font-feature-settings:"palt";}
 a{color:var(--pg);}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+img{max-width:100%;display:block;}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px;}
 .mock{background:var(--wb);color:var(--wt);font-size:12px;text-align:center;padding:6px 16px;}
-mark{background:linear-gradient(transparent 62%,rgba(244,197,66,.55) 62%);color:inherit;}
-/* header */
-header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--bd);}
-header .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px;}
-.logo{font-weight:900;color:var(--dg);font-size:17px;text-decoration:none;white-space:nowrap;}
-.logo small{font-weight:500;color:var(--lt);font-size:11px;margin-left:8px;}
-.hnav{display:flex;gap:10px;align-items:center;}
-.hnav .tel{font-size:12px;color:var(--lt);line-height:1.4;text-align:right;}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--pg);color:#fff;font-weight:700;border:0;border-radius:6px;
- padding:12px 22px;font-size:15px;cursor:pointer;text-decoration:none;font-family:inherit;transition:background .15s,transform .15s;}
-.btn:hover{background:var(--dg);}
-.btn.cv{background:linear-gradient(180deg,#F7A531,#E8861A);box-shadow:0 4px 0 #B8650E;color:#fff;}
-.btn.cv:hover{transform:translateY(1px);box-shadow:0 3px 0 #B8650E;background:linear-gradient(180deg,#F7A531,#E8861A);}
-.btn.cv::after{content:"›";font-size:20px;line-height:1;}
-.btn.sm{padding:8px 16px;font-size:13px;} .btn.sm::after{font-size:16px;}
+.nw{white-space:nowrap;display:inline-block;}
+em.hl{font-style:normal;background:linear-gradient(transparent 64%,rgba(243,154,43,.35) 64%);}
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;border:0;border-radius:6px;
+ padding:13px 24px;font-size:15px;cursor:pointer;text-decoration:none;font-family:inherit;transition:transform .12s,box-shadow .12s,background .12s;}
+.btn.cv{background:linear-gradient(180deg,var(--or),var(--or2));color:#fff;box-shadow:0 4px 0 #B8650E,0 8px 18px rgba(224,127,18,.25);}
+.btn.cv:hover{transform:translateY(2px);box-shadow:0 2px 0 #B8650E,0 4px 10px rgba(224,127,18,.25);}
+.btn.cv::after{content:"→";font-weight:900;}
 .btn.ghost{background:#fff;color:var(--pg);border:1.5px solid var(--pg);}
 .btn.ghost:hover{background:var(--lg);}
-/* hero */
-.hero{background:linear-gradient(135deg,#0F5C3F 0%,#0A3F2B 100%);color:#fff;padding:44px 0 56px;overflow:hidden;position:relative;}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 20%,rgba(60,170,92,.35),transparent 45%);}
-.hero .wrap{display:grid;grid-template-columns:1.08fr .92fr;gap:36px;align-items:center;position:relative;}
-.badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
-.badge{background:var(--yl);color:#3A2C00;font-weight:900;font-size:13px;border-radius:3px;padding:3px 10px;}
-.badge.o{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55);font-weight:700;}
-.hero h1{font-size:36px;line-height:1.42;font-weight:900;margin-bottom:14px;letter-spacing:.5px;}
-.nw{white-space:nowrap;display:inline-block;}
-.hero h1 em{font-style:normal;color:#9FE0B3;}
-.hero .sub{font-size:16px;opacity:.93;margin-bottom:20px;}
-.spec{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px;}
-.spec div{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:8px 10px;text-align:center;line-height:1.35;}
-.spec b{display:block;font-size:22px;font-weight:900;color:#fff;}
-.spec b small{font-size:12px;}
-.spec span{font-size:11.5px;opacity:.85;}
-.hero-form{background:#fff;border-radius:10px;padding:16px;color:var(--tx);box-shadow:0 12px 30px rgba(0,0,0,.2);}
-.hero-form label{font-size:13px;font-weight:700;color:var(--dg);display:block;margin-bottom:6px;}
-.row{display:flex;gap:8px;}
-.row input{flex:1;min-width:0;}
-input[type=url],input[type=text],input[type=email],input[type=tel],textarea{width:100%;border:1.5px solid var(--bd);border-radius:6px;padding:11px 12px;font-size:15px;font-family:inherit;background:#fff;}
-input:focus,textarea:focus{outline:none;border-color:var(--ag);box-shadow:0 0 0 3px var(--lg);}
-.hero-form .fine{font-size:12px;color:var(--lt);margin-top:8px;display:flex;flex-wrap:wrap;gap:4px 14px;}
-.hero-form .fine span::before{content:"✓";color:var(--ag);font-weight:900;margin-right:4px;}
-/* report stack */
-.preview{position:relative;height:420px;}
-.sheet{position:absolute;width:260px;background:#fff;border-radius:6px;box-shadow:0 16px 40px rgba(0,0,0,.3);overflow:hidden;color:var(--tx);font-size:9px;}
-.sheet .cv{background:linear-gradient(135deg,#0F5C3F,#0A3F2B);color:#fff;padding:14px 14px 18px;}
-.sheet .cv b{display:block;font-size:13px;line-height:1.4;margin:4px 0;}
-.sheet .bd{padding:10px 12px;}
-.sheet .k{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;}
-.sheet .k div{border:1px solid var(--bd);border-top:2px solid var(--pg);padding:4px 6px;}
-.sheet .k strong{display:block;font-size:14px;color:var(--dg);}
-.sheet .hm{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
-.sheet .hm i{height:12px;border-radius:1px;display:block;}
-.sheet .bar{height:7px;background:#EDF1EE;border-radius:3px;margin:4px 0;overflow:hidden;}
-.sheet .bar i{display:block;height:100%;background:var(--ag);}
-.s1{left:0;top:40px;transform:rotate(-4deg);}
-.s2{right:0;top:0;transform:rotate(3deg);}
-.ribbon{position:absolute;right:-30px;top:14px;background:var(--yl);color:#3A2C00;font-weight:900;font-size:10px;padding:2px 34px;transform:rotate(35deg);}
-.tagp{position:absolute;background:#fff;color:var(--pg);font-weight:900;font-size:12px;padding:5px 12px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.2);}
-/* stats bar */
-.stats{background:#fff;border-bottom:1px solid var(--bd);}
-.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);}
-.stat{text-align:center;padding:20px 10px;border-right:1px solid var(--bd);}
-.stat:last-child{border-right:0;}
-.stat .v{font-size:30px;font-weight:900;color:var(--dg);line-height:1.2;}
-.stat .v small{font-size:14px;}
-.stat .l{font-size:12.5px;color:var(--lt);}
-/* sections */
-section{padding:72px 0;}
+.btn.sm{padding:8px 16px;font-size:13px;box-shadow:0 3px 0 #B8650E;}
+.btn.lg{font-size:17px;padding:16px 34px;}
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--bd);}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px;}
+.logo{font-weight:900;color:var(--dg);font-size:18px;text-decoration:none;white-space:nowrap;}
+.logo small{font-weight:500;color:var(--lt);font-size:11px;margin-left:8px;}
+nav.gn{display:flex;gap:22px;font-size:13.5px;font-weight:700;margin-left:auto;}
+nav.gn a{color:var(--gy);text-decoration:none;} nav.gn a:hover{color:var(--pg);}
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:
+ radial-gradient(900px 500px at 88% 10%,rgba(60,170,92,.16),transparent 60%),
+ linear-gradient(180deg,#F1F8F3 0%,#fff 100%);padding:48px 0 60px;}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--dg);color:#fff;font-size:13px;font-weight:700;border-radius:20px;padding:5px 16px;margin-bottom:18px;}
+.pill b{color:#9FE0B3;}
+.hero h1{font-size:40px;line-height:1.45;font-weight:900;color:var(--dg);margin-bottom:18px;letter-spacing:.5px;}
+.hero h1 .g{color:var(--ag);}
+.hero .sub{font-size:16px;color:var(--gy);margin-bottom:20px;}
+.hero .sub b{color:var(--dg);}
+.lead-strong{font-size:17px;font-weight:900;color:var(--dg);line-height:1.7;margin-bottom:20px;}
+.lead-strong .mk{color:var(--pg);background:linear-gradient(transparent 62%,var(--g1) 62%);}
+.covers{display:flex;gap:12px;align-items:flex-end;}
+.covers a{display:block;width:150px;border-radius:4px;overflow:hidden;box-shadow:0 10px 24px rgba(10,63,43,.22);transition:transform .15s;}
+.covers a:nth-child(2){transform:translateY(-10px);} .covers a:hover{transform:translateY(-14px);}
+.covers .cap{font-size:12px;color:var(--lt);margin-left:6px;line-height:1.6;}
+/* report card (hero right) */
+.rcard{background:#fff;border-radius:14px;box-shadow:0 18px 50px rgba(10,63,43,.16);border:1px solid var(--bd);overflow:hidden;}
+.rcard .top{background:linear-gradient(135deg,#0F5C3F,#0A3F2B);color:#fff;padding:18px 22px 16px;position:relative;}
+.rcard .flag{display:inline-block;background:var(--or);color:#fff;font-size:11.5px;font-weight:900;border-radius:3px;padding:2px 10px;margin-bottom:8px;}
+.rcard h2{font-size:21px;line-height:1.45;}
+.rcard h2 small{display:block;font-size:12px;font-weight:500;opacity:.8;letter-spacing:1px;}
+.rcard .body{padding:18px 22px 20px;}
+.rcard ul{list-style:none;margin-bottom:16px;}
+.rcard li{position:relative;padding:6px 0 6px 28px;font-size:14px;border-bottom:1px dashed var(--bd);}
+.rcard li::before{content:"✓";position:absolute;left:0;top:7px;width:19px;height:19px;border-radius:50%;background:var(--lg);color:var(--pg);font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.rcard li b{color:var(--dg);}
+.rcard label{font-size:12.5px;font-weight:700;color:var(--dg);display:block;margin-bottom:6px;}
+.rcard .btn{width:100%;margin-top:10px;font-size:16px;padding:14px;}
+.rcard .micro{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 14px;margin-top:10px;font-size:12px;color:var(--lt);}
+.rcard .micro span::before{content:"✓";color:var(--ag);font-weight:900;margin-right:4px;}
+input[type=url],input[type=text],input[type=email],input[type=tel],textarea,select{width:100%;border:1.5px solid var(--bd);border-radius:6px;padding:11px 12px;font-size:15px;font-family:inherit;background:#fff;color:var(--tx);}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--ag);box-shadow:0 0 0 3px var(--lg);}
+/* ---------- sections ---------- */
+section{padding:76px 0;}
 section.alt{background:var(--soft);}
 .sec-h{text-align:center;margin-bottom:38px;}
-.sec-h .en{color:var(--ag);font-size:12px;letter-spacing:3px;font-weight:700;}
-.sec-h h2{font-size:29px;line-height:1.5;color:var(--dg);margin-top:6px;}
+.sec-h .en{color:var(--ag);font-size:12px;letter-spacing:3px;font-weight:900;}
+.sec-h h2{font-size:30px;line-height:1.5;color:var(--dg);margin-top:6px;}
+.sec-h h2 .g{color:var(--ag);}
 .sec-h p{color:var(--gy);margin-top:10px;}
-/* worries */
-.worries{max-width:820px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;}
-.worry{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:14px 16px 14px 48px;position:relative;font-size:15px;}
-.worry::before{content:"✓";position:absolute;left:14px;top:13px;width:22px;height:22px;border-radius:4px;background:var(--pg);color:#fff;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;}
-.worry b{color:var(--dg);}
-.arrow{width:0;height:0;border-left:44px solid transparent;border-right:44px solid transparent;border-top:28px solid var(--g2);margin:28px auto 22px;}
-.resolve{text-align:center;font-size:22px;font-weight:900;color:var(--dg);line-height:1.6;}
-/* learn 5 */
-.learn{display:grid;gap:16px;}
-.li{display:grid;grid-template-columns:72px 1fr 260px;gap:22px;align-items:center;background:#fff;border:1px solid var(--bd);border-radius:10px;padding:20px 24px;}
-.li .no{font-size:40px;font-weight:900;color:var(--g2);line-height:1;text-align:center;}
-.li .no small{display:block;font-size:10px;letter-spacing:2px;color:var(--ag);}
-.li h3{font-size:18px;color:var(--dg);margin-bottom:4px;}
-.li p{font-size:14px;color:var(--gy);}
-.li .for{display:inline-block;font-size:11px;font-weight:700;border-radius:3px;padding:0 8px;margin-top:6px;background:var(--lg);color:var(--pg);}
-.viz{height:100px;border-radius:6px;background:var(--soft);border:1px solid var(--bd);padding:10px 12px;display:flex;flex-direction:column;justify-content:center;gap:5px;font-size:11px;}
-.viz .b{height:10px;border-radius:2px;background:var(--ag);}
-.viz .hm{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;}
-.viz .hm i{height:15px;border-radius:2px;display:block;}
-.viz .kw{display:flex;justify-content:space-between;border-bottom:1px solid var(--bd);padding-bottom:2px;}
-.viz .kw b{color:var(--pg);}
-.viz .big{font-size:26px;font-weight:900;color:var(--dg);line-height:1;}
-.viz .big small{font-size:12px;}
-.viz .cap{color:var(--lt);}
-/* reports */
-.reports{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-.rep{border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column;}
-.rep .hd{background:var(--dg);color:#fff;padding:18px 22px;}
-.rep.entry .hd{background:var(--ag);}
-.rep .hd .for{font-size:12px;opacity:.9;}
-.rep .hd h3{font-size:21px;margin-top:2px;}
-.rep .bd{padding:18px 22px;flex:1;display:flex;flex-direction:column;}
-.rep ul{list-style:none;margin-bottom:14px;}
-.rep li{padding:7px 0 7px 26px;border-bottom:1px dotted var(--bd);position:relative;font-size:14px;}
-.rep li::before{content:"";position:absolute;left:4px;top:15px;width:10px;height:10px;border-radius:2px;background:var(--g3);}
-.rep .out{font-size:13px;color:var(--gy);background:var(--soft);border-radius:6px;padding:10px 12px;margin-top:auto;}
-.rep .out b{color:var(--pg);}
-.route{text-align:center;margin-top:20px;color:var(--gy);font-size:14px;}
+.ctaline{text-align:center;margin-top:34px;}
+.ctaline p{font-size:13px;color:var(--lt);margin-bottom:10px;}
+/* proof */
+.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.case{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:22px 22px 18px;position:relative;}
+.case .co{font-size:13px;color:var(--lt);font-weight:700;}
+.case .v{font-size:40px;font-weight:900;color:var(--dg);line-height:1.2;margin:6px 0 2px;}
+.case .v small{font-size:15px;margin-left:2px;}
+.case .l{font-size:14px;color:var(--gy);}
+.case .sub{margin-top:10px;padding-top:10px;border-top:1px dashed var(--bd);font-size:12.5px;color:var(--pg);font-weight:700;}
+.src{font-size:11.5px;color:var(--lt);margin-top:14px;line-height:1.7;}
+/* why now */
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.wcard{background:var(--soft);border-left:4px solid var(--pg);border-radius:0 8px 8px 0;padding:22px 22px 18px;}
+.wcard .no{font-size:34px;font-weight:900;color:var(--g2);line-height:1;}
+.wcard h3{font-size:17px;color:var(--dg);margin:8px 0 6px;line-height:1.5;}
+.wcard p{font-size:13.5px;color:var(--gy);}
+.wcard .big{font-size:28px;font-weight:900;color:var(--pg);}
+.nowband{margin-top:24px;background:linear-gradient(135deg,#0F5C3F,#0A3F2B);color:#fff;border-radius:10px;padding:20px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.nowband p{font-size:15px;} .nowband b{color:#FFD08A;}
+/* checklist */
+.chk{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:960px;margin:0 auto;}
+.chk h3{font-size:15px;color:var(--pg);border-bottom:2px solid var(--pg);padding-bottom:6px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;}
+.chk h3 small{font-size:12px;color:var(--lt);font-weight:700;}
+.chk .it{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:12px 14px 12px 40px;margin-bottom:10px;font-size:14.5px;position:relative;}
+.chk .it::before{content:"";position:absolute;left:16px;top:20px;width:9px;height:9px;border-radius:50%;background:var(--or);}
+.chk .it b{color:var(--dg);}
+.chk-q{text-align:center;margin-top:22px;font-size:15px;color:var(--gy);}
+/* report */
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.ritem{background:#fff;border:1px solid var(--bd);border-top:3px solid var(--pg);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;}
+.ritem .shot{display:block;height:250px;overflow:hidden;background:var(--soft);border-bottom:1px solid var(--bd);position:relative;}
+.ritem .shot img{width:100%;height:auto;object-fit:cover;object-position:top;transition:transform .3s;}
+.ritem .shot:hover img{transform:scale(1.03);}
+.ritem .shot::after{content:"レポートサンプル";position:absolute;right:10px;top:10px;background:rgba(10,63,43,.85);color:#fff;font-size:11px;font-weight:700;border-radius:3px;padding:2px 8px;}
+.ritem .tx{padding:16px 20px 18px;}
+.ritem .no{font-size:12px;letter-spacing:2px;font-weight:900;color:var(--ag);}
+.ritem h3{font-size:18px;color:var(--dg);margin:2px 0 6px;}
+.ritem p{font-size:14px;color:var(--gy);}
+.ritem .for{display:inline-block;font-size:11px;font-weight:700;border-radius:3px;padding:0 8px;margin-top:8px;}
+.for.both{background:var(--lg);color:var(--pg);} .for.entry{background:#FFF1DE;color:#9A5A0B;} .for.imp{background:#E6EEF8;color:#2F5A8A;}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px;}
+.type{border:1.5px solid var(--bd);border-radius:10px;background:#fff;padding:18px 20px;}
+.type .tg{display:inline-block;background:var(--ag);color:#fff;font-weight:900;border-radius:4px;padding:2px 12px;font-size:13px;letter-spacing:1px;margin-bottom:8px;}
+.type.imp .tg{background:var(--dg);}
+.type h4{font-size:16px;color:var(--dg);}
+.type h4 small{font-size:12px;color:var(--lt);font-weight:500;margin-left:6px;}
+.type p{font-size:13.5px;color:var(--gy);}
+.route{text-align:center;margin-top:16px;color:var(--gy);font-size:13.5px;}
+.center{text-align:center;margin-top:24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 /* compare */
-.cmp{max-width:900px;margin:0 auto;overflow-x:auto;}
-.cmp table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;min-width:560px;}
+.cmp{max-width:920px;margin:0 auto;overflow-x:auto;}
+.cmp table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;min-width:580px;background:#fff;}
 .cmp th,.cmp td{padding:13px 14px;border-bottom:1px solid var(--bd);text-align:center;vertical-align:middle;}
-.cmp th:first-child,.cmp td:first-child{text-align:left;font-weight:700;color:var(--dg);background:var(--soft);width:30%;}
-.cmp thead th{font-size:13px;color:var(--gy);font-weight:700;background:#fff;}
+.cmp th:first-child,.cmp td:first-child{text-align:left;font-weight:700;color:var(--dg);background:var(--soft);width:28%;}
+.cmp thead th{font-size:13px;color:var(--gy);font-weight:700;}
 .cmp thead th.us{background:var(--pg);color:#fff;border-radius:8px 8px 0 0;font-size:15px;}
 .cmp td.us{background:var(--lg);font-weight:700;}
 .cmp .mk{display:block;font-size:22px;line-height:1.1;font-weight:900;}
-.cmp .mk.a{color:var(--pg);} .cmp .mk.b{color:var(--g3);} .cmp .mk.c{color:#B7BDB9;}
+.cmp .a{color:var(--pg);} .cmp .b{color:var(--g3);} .cmp .c{color:#B7BDB9;}
 .cmp small{display:block;font-size:12px;color:var(--gy);font-weight:500;}
-.cmp-note{max-width:900px;margin:12px auto 0;font-size:12.5px;color:var(--lt);}
-/* sample */
-.pages{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-.pg{background:#fff;border:1px solid var(--bd);border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);}
-.pg .top{background:linear-gradient(135deg,#0F5C3F,#0A3F2B);color:#fff;font-size:11px;font-weight:700;padding:7px 10px;}
-.pg .top span{opacity:.6;margin-right:6px;}
-.pg .in{padding:10px;height:112px;display:flex;flex-direction:column;gap:5px;justify-content:center;}
-.pg .in .b{height:8px;background:var(--ag);border-radius:2px;}
-.pg .in .l{height:5px;background:#E4E9E6;border-radius:2px;}
-.pg .in .hm{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
-.pg .in .hm i{height:11px;display:block;border-radius:1px;}
-.pg .cap{font-size:12px;color:var(--gy);padding:8px 10px;border-top:1px solid var(--bd);}
-.toc{max-width:900px;margin:26px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.toc .box{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:16px 18px;}
-.toc h4{color:var(--dg);font-size:14px;margin-bottom:6px;}
-.toc ol{margin-left:20px;font-size:13px;color:var(--gy);}
-.center{text-align:center;margin-top:24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
-/* cta band */
-.band{background:linear-gradient(135deg,#0F5C3F 0%,#0A3F2B 100%);color:#fff;padding:34px 0;}
-.band .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-.band p{font-size:19px;font-weight:900;line-height:1.5;}
-.band p small{display:block;font-size:13px;font-weight:400;opacity:.85;}
-.band .btn{font-size:17px;padding:15px 30px;}
-/* why free / about */
-.about{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;}
-.about h3{font-size:23px;color:var(--dg);line-height:1.5;margin-bottom:12px;}
-.about p{color:var(--gy);font-size:15px;margin-bottom:10px;}
-.proof{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:20px;}
-.proof h4{font-size:14px;color:var(--dg);margin-bottom:12px;}
-.proof .row2{display:grid;grid-template-columns:110px 1fr 40px;gap:10px;align-items:center;font-size:13px;margin:6px 0;}
-.proof .tr{height:14px;background:#EDF1EE;border-radius:3px;overflow:hidden;}
-.proof .tr i{display:block;height:100%;background:var(--ag);}
-.proof .tr i.dk{background:var(--dg);}
-.proof .row2 b{text-align:right;color:var(--dg);}
-.proof .note{font-size:12px;color:var(--lt);margin-top:10px;}
-.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px;}
-.num{border:1px solid var(--bd);border-top:3px solid var(--pg);border-radius:4px;padding:12px;background:#fff;text-align:center;}
-.num .v{font-size:24px;font-weight:900;color:var(--dg);line-height:1.2;}
-.num .v small{font-size:12px;}
-.num .l{font-size:12px;color:var(--lt);}
-/* flow */
-.flow{display:grid;grid-template-columns:repeat(4,1fr);}
-.st{position:relative;padding:0 14px;text-align:center;}
-.st .n{width:50px;height:50px;border-radius:50%;background:var(--pg);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:19px;}
-.st:not(:last-child)::after{content:"";position:absolute;top:25px;left:calc(50% + 32px);right:calc(-50% + 32px);height:2px;background:var(--g2);}
-.st h4{color:var(--dg);font-size:16px;margin-bottom:4px;}
+.cmp-note{max-width:920px;margin:12px auto 0;font-size:12px;color:var(--lt);}
+/* trust + flow */
+.trust{display:flex;justify-content:center;flex-wrap:wrap;gap:10px 28px;margin-bottom:34px;font-weight:700;color:var(--dg);}
+.trust span::before{content:"✓";display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--pg);color:#fff;font-size:12px;margin-right:8px;}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
+.st{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:22px 18px 18px;text-align:center;position:relative;}
+.st:not(:last-child)::after{content:"";position:absolute;right:-22px;top:50%;border:8px solid transparent;border-left:12px solid var(--g3);transform:translateY(-50%);}
+.st .n{width:42px;height:42px;border-radius:50%;background:var(--pg);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+.st h4{color:var(--dg);font-size:15.5px;margin-bottom:4px;}
 .st p{font-size:13px;color:var(--gy);}
-.st .who{display:inline-block;font-size:11px;font-weight:700;border-radius:3px;padding:0 8px;margin-bottom:6px;background:var(--yl);color:#3A2C00;}
-/* honest */
-.honest{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.hn{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:18px 20px;}
-.hn h4{color:var(--dg);margin-bottom:6px;font-size:15px;}
-.hn p{font-size:13.5px;color:var(--gy);}
-/* faq */
-.faq{max-width:800px;margin:0 auto;}
-details{background:#fff;border:1px solid var(--bd);border-radius:8px;margin-bottom:10px;padding:0 18px;}
-summary{cursor:pointer;font-weight:700;color:var(--dg);list-style:none;display:flex;gap:12px;padding:16px 0;align-items:flex-start;}
-summary::before{content:"Q";color:#fff;background:var(--pg);font-weight:900;width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;}
-summary::after{content:"+";margin-left:auto;color:var(--ag);font-size:20px;line-height:1;}
-details[open] summary::after{content:"−";}
-summary::-webkit-details-marker{display:none;}
-details p{padding:0 0 16px 36px;color:var(--gy);font-size:14px;}
+.st .who{display:inline-block;font-size:11px;font-weight:700;border-radius:3px;padding:0 8px;margin-bottom:6px;background:var(--lg);color:var(--pg);}
 /* form */
-#apply{background:linear-gradient(135deg,#0F5C3F 0%,#0A3F2B 100%);color:#fff;}
-#apply .sec-h h2{color:#fff;} #apply .sec-h p{color:rgba(255,255,255,.88);}
-.form{max-width:660px;margin:0 auto;background:#fff;color:var(--tx);border-radius:12px;padding:28px;box-shadow:0 14px 40px rgba(0,0,0,.25);}
-.slotbar{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px;font-size:13px;color:var(--gy);}
-.slotbar b{background:var(--yl);color:#3A2C00;border-radius:3px;padding:1px 8px;}
+.formwrap{max-width:720px;margin:40px auto 0;background:#fff;border-radius:14px;box-shadow:0 16px 44px rgba(10,63,43,.14);border:1px solid var(--bd);overflow:hidden;}
+.formhd{background:linear-gradient(135deg,#0F5C3F,#0A3F2B);color:#fff;text-align:center;padding:18px 20px;}
+.formhd h3{font-size:20px;} .formhd p{font-size:13px;opacity:.88;}
+.form{padding:26px 30px 28px;}
 .steps{display:flex;gap:8px;margin-bottom:22px;}
 .steps div{flex:1;text-align:center;font-size:12px;font-weight:700;color:var(--lt);padding-bottom:8px;border-bottom:3px solid var(--bd);}
 .steps div.on{color:var(--pg);border-color:var(--pg);}
 .fld{margin-bottom:16px;}
-.fld>label,.fld>.lb{display:block;font-size:14px;font-weight:700;margin-bottom:6px;color:var(--dg);}
-.req{font-size:11px;background:var(--nt);color:#fff;border-radius:3px;padding:0 6px;margin-left:6px;vertical-align:1px;}
-.opt{font-size:11px;background:var(--bd);color:var(--gy);border-radius:3px;padding:0 6px;margin-left:6px;vertical-align:1px;}
+.fld>label,.fld>.lb{display:flex;align-items:center;font-size:14px;font-weight:700;margin-bottom:6px;color:var(--dg);}
+.req,.opt{font-size:11px;border-radius:3px;padding:0 6px;margin-right:8px;order:-1;}
+.req{background:var(--pg);color:#fff;} .opt{background:var(--bd);color:var(--gy);}
 .hint{font-size:12px;color:var(--lt);margin-top:4px;}
 .err{font-size:12px;color:var(--nt);margin-top:4px;display:none;}
-.fld.bad .err{display:block;} .fld.bad input{border-color:var(--nt);}
+.fld.bad .err{display:block;} .fld.bad input,.fld.bad select{border-color:var(--nt);}
 .choice{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .choice label{border:1.5px solid var(--bd);border-radius:8px;padding:12px 10px;cursor:pointer;font-size:12.5px;text-align:center;line-height:1.5;transition:all .15s;color:var(--gy);}
 .choice label b{display:block;font-size:14px;color:var(--dg);}
 .choice input{position:absolute;opacity:0;pointer-events:none;}
 .choice label:has(input:checked){border-color:var(--pg);background:var(--lg);}
 .result{background:var(--lg);border-radius:8px;padding:12px 14px;font-size:14px;margin:4px 0 16px;display:none;}
-.result.show{display:block;}
-.result b{color:var(--pg);}
+.result.show{display:block;} .result b{color:var(--pg);}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .consent{font-size:12.5px;color:var(--gy);display:flex;gap:8px;align-items:flex-start;margin:6px 0 18px;}
 .consent input{margin-top:4px;}
 .form .btn{width:100%;padding:16px;font-size:17px;}
-.form .btn:disabled{opacity:.5;cursor:not-allowed;}
+.form .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 .secure{text-align:center;font-size:12px;color:var(--lt);margin-top:10px;}
 .back{background:none;border:0;color:var(--lt);font-size:13px;margin-top:12px;cursor:pointer;font-family:inherit;text-decoration:underline;}
-.hidden{display:none;}
-.done{text-align:center;padding:10px 0;}
+.hidden{display:none!important;}
+.done{text-align:center;padding:6px 0;}
 .done .ic{width:56px;height:56px;border-radius:50%;background:var(--lg);color:var(--pg);font-size:28px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
 .done ol{text-align:left;max-width:420px;margin:16px auto 0;font-size:13.5px;color:var(--gy);}
-.alt-cta{text-align:center;margin-top:18px;font-size:13.5px;color:rgba(255,255,255,.9);}
-.alt-cta a{color:#fff;font-weight:700;}
+/* transition */
+.transit{background:var(--dg);color:#fff;padding:22px 0;}
+.transit p{font-size:16px;font-weight:700;} .transit b{color:#FFD08A;}
+/* about */
+.about-lead{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;margin-bottom:40px;}
+.about-lead h3{font-size:25px;line-height:1.5;color:var(--dg);margin-bottom:12px;}
+.about-lead p{color:var(--gy);font-size:15px;margin-bottom:10px;}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.s3{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:18px 12px;text-align:center;}
+.s3 .k{width:54px;height:54px;border-radius:50%;background:var(--pg);color:#fff;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+.s3 b{display:block;color:var(--dg);}
+.s3 span{font-size:12.5px;color:var(--gy);}
+.reasons{display:grid;gap:14px;}
+.rs{display:grid;grid-template-columns:90px 1fr 300px;gap:24px;align-items:center;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:22px 26px;}
+.rs .no{font-size:48px;font-weight:900;color:var(--g2);line-height:1;text-align:center;}
+.rs .no small{display:block;font-size:10px;letter-spacing:2px;color:var(--ag);}
+.rs h3{font-size:19px;color:var(--dg);margin-bottom:6px;line-height:1.5;}
+.rs p{font-size:14px;color:var(--gy);}
+.rs .fig{background:var(--soft);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;font-size:12.5px;}
+.bar3{display:grid;grid-template-columns:96px 1fr 30px;gap:8px;align-items:center;margin:5px 0;font-size:12px;}
+.bar3 .t{height:12px;background:#E4EBE6;border-radius:3px;overflow:hidden;}
+.bar3 .t i{display:block;height:100%;background:var(--ag);} .bar3 .t i.dk{background:var(--dg);}
+.bar3 b{text-align:right;color:var(--dg);}
+.agents{display:flex;flex-wrap:wrap;gap:5px;}
+.agents span{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:1px 9px;font-size:11.5px;}
+.agents span.k{border-color:var(--ag);color:var(--pg);font-weight:700;background:var(--lg);}
+.kv{display:flex;gap:10px;}
+.kv div{flex:1;background:#fff;border:1px solid var(--bd);border-top:3px solid var(--pg);border-radius:4px;padding:8px;text-align:center;}
+.kv b{display:block;font-size:22px;color:var(--dg);line-height:1.2;} .kv b small{font-size:11px;}
+.kv span{font-size:11px;color:var(--lt);}
+.trial{margin-top:30px;border:2px solid var(--or);border-radius:12px;background:linear-gradient(135deg,#FFF8EE,#fff);padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;}
+.trial .badge{width:104px;height:104px;border-radius:50%;background:var(--or);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;line-height:1.2;box-shadow:0 6px 16px rgba(224,127,18,.3);}
+.trial .badge span{font-size:13px;} .trial .badge b{font-size:28px;}
+.trial h3{font-size:20px;color:var(--dg);margin-bottom:4px;}
+.trial p{font-size:14px;color:var(--gy);}
+.trial small{display:block;font-size:11.5px;color:var(--lt);margin-top:4px;}
+/* faq */
+.faq{max-width:820px;margin:0 auto;}
+details{background:#fff;border:1px solid var(--bd);border-radius:8px;margin-bottom:10px;padding:0 20px;}
+section.alt details{background:#fff;}
+summary{cursor:pointer;font-weight:700;color:var(--dg);list-style:none;display:flex;gap:12px;padding:16px 0;align-items:flex-start;}
+summary::before{content:"Q";color:#fff;background:var(--pg);font-weight:900;width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;}
+summary::after{content:"+";margin-left:auto;color:var(--ag);font-size:22px;line-height:1;}
+details[open] summary::after{content:"−";}
+summary::-webkit-details-marker{display:none;}
+details p{padding:0 0 16px 36px;color:var(--gy);font-size:14px;}
+/* final */
+.final{background:linear-gradient(135deg,#0F5C3F 0%,#0A3F2B 100%);color:#fff;text-align:center;padding:64px 0;}
+.final h2{font-size:30px;line-height:1.5;margin-bottom:10px;}
+.final p{opacity:.9;margin-bottom:24px;}
+.final .trustw{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;margin-top:18px;font-size:13px;opacity:.9;}
+.final .trustw span::before{content:"✓";margin-right:5px;color:#9FE0B3;font-weight:900;}
 footer{background:#08301F;color:rgba(255,255,255,.7);font-size:12px;padding:26px 0;text-align:center;}
 footer a{color:rgba(255,255,255,.85);}
+/* floating */
+.sidetab{position:fixed;right:0;top:42%;z-index:25;writing-mode:vertical-rl;background:linear-gradient(180deg,var(--or),var(--or2));color:#fff;font-weight:900;text-decoration:none;
+ padding:18px 11px;border-radius:8px 0 0 8px;font-size:14px;letter-spacing:2px;box-shadow:-3px 4px 14px rgba(0,0,0,.18);}
 .mcta{display:none;}
-@media(max-width:900px){
- .hero .wrap,.about,.reports,.toc{grid-template-columns:1fr;}
- .hero h1{font-size:30px;} .preview{display:none;}
- .li{grid-template-columns:56px 1fr;} .li .viz{grid-column:1/-1;}
- .pages{grid-template-columns:1fr 1fr;}
- .honest{grid-template-columns:1fr;}
- .flow{grid-template-columns:1fr 1fr;gap:26px 0;} .st::after{display:none;}
- .stats .wrap{grid-template-columns:1fr 1fr;} .stat:nth-child(2){border-right:0;} .stat:nth-child(-n+2){border-bottom:1px solid var(--bd);}
- .sec-h h2{font-size:23px;}
- .band p{font-size:17px;} .band .btn{width:100%;}
- .mcta{display:block;position:fixed;left:0;right:0;bottom:0;padding:10px 16px;background:rgba(255,255,255,.96);border-top:1px solid var(--bd);z-index:20;}
+/* ---------- responsive ---------- */
+@media(max-width:960px){
+ nav.gn{display:none;}
+ .hero .wrap,.about-lead,.types,.rgrid{grid-template-columns:1fr;}
+ .hero h1{font-size:31px;}
+ .cases,.why{grid-template-columns:1fr;}
+ .chk{grid-template-columns:1fr;}
+ .rs{grid-template-columns:64px 1fr;} .rs .fig{grid-column:1/-1;}
+ .flow{grid-template-columns:1fr 1fr;} .st::after{display:none;}
+ .trial{grid-template-columns:1fr;text-align:center;} .trial .badge{margin:0 auto;}
+ .nowband{flex-direction:column;text-align:center;}
+ .sec-h h2,.final h2{font-size:24px;}
+ .sidetab{display:none;}
+ .mcta{display:block;position:fixed;left:0;right:0;bottom:0;padding:10px 16px;background:rgba(255,255,255,.96);border-top:1px solid var(--bd);z-index:30;}
  .mcta .btn{width:100%;}
- footer{padding-bottom:84px;}
- .hnav .tel,.hnav .btn.ghost{display:none;}
+ footer{padding-bottom:86px;}
 }
 @media(max-width:560px){
- .worries,.choice,.two-col,.nums{grid-template-columns:1fr 1fr;}
- .worries{grid-template-columns:1fr;} .choice,.two-col{grid-template-columns:1fr;}
- .row{flex-direction:column;} .form{padding:20px 16px;}
- .hero h1{font-size:25px;} .hero .sub{font-size:15px;} .hero .sub br,.sec-h h2 br.pc{display:none;}
- .spec b{font-size:18px;} .resolve{font-size:18px;}
- .li{padding:16px;gap:10px;grid-template-columns:1fr;} .li .no{font-size:28px;text-align:left;display:flex;align-items:baseline;gap:8px;} .li .no small{display:inline;}
  header .btn.sm{display:none;}
+ .hero{padding:32px 0 44px;} .hero h1{font-size:26px;} .hero .sub{font-size:15px;} .sec-h h2 br.pc,.hero .sub br{display:none;}
+ .covers a{width:31%;} .covers .cap{display:none;}
+ .flow,.choice,.two-col{grid-template-columns:1fr;} .s3{padding:12px 6px;} .s3 .k{width:40px;height:40px;font-size:18px;} .s3 span{font-size:11px;}
+ .form{padding:20px 16px 22px;}
+ .rs{padding:18px;gap:12px;grid-template-columns:1fr;} .rs .no{font-size:32px;text-align:left;display:flex;gap:8px;align-items:baseline;} .rs .no small{display:inline;}
+ .ritem .shot{height:190px;}
 }
 </style>
 </head>
 <body>
-<div class="mock">LPイメージ（プロトタイプ v2）：フォームは送信されません。レポート内の数値はサンプルのダミー値です</div>
+<div class="mock">LPイメージ（プロトタイプ v3）：フォームは送信されません。レポート画像・数値はサンプル（ダミーデータ）です</div>
 
 <header><div class="wrap">
  <a class="logo" href="#">AIメディアくん<small>by MIRAIKU</small></a>
- <div class="hnav">
-  <a class="btn sm ghost" href="#consult">まず相談する</a>
-  <a class="btn sm cv" href="#apply">無料で診断する</a>
- </div>
+ <nav class="gn"><a href="#report">診断内容</a><a href="#flow">お届けまでの流れ</a><a href="#about">AIメディアくんとは</a><a href="#faq">よくある質問</a></nav>
+ <a class="btn cv sm" href="#apply">無料で診断する</a>
 </div></header>
 
-<!-- HERO -->
+<!-- ===== HERO ===== -->
 <div class="hero"><div class="wrap">
  <div>
-  <div class="badges"><span class="badge">毎月30社限定</span><span class="badge o">完全無料</span><span class="badge o">メディアがなくても診断可</span></div>
-  <h1 id="h1">同業は、記事から<br><span class="nw">毎月<em>どれだけ</em></span><span class="nw">集客しているか。</span></h1>
-  <p class="sub" id="sub">URLを入れるだけ。御社と同業3社の検索データをAIが解析し、<br>
-  「どのテーマで、誰が、どれだけ集客しているか」をレポートにしてお届けします。</p>
-  <div class="spec">
-   <div><b>3<small>社</small></b><span>同業と比較</span></div>
-   <div><b>約10<small>ページ</small></b><span>の診断レポート</span></div>
-   <div><b>1<small>営業日</small></b><span>でメールにお届け</span></div>
+  <div class="pill">AIメディアくんの <b>無料メディア診断</b></div>
+  <h1 id="h1">同業は、記事から<br><span class="nw">毎月<span class="g">どれだけ</span></span><span class="nw">集客しているか。</span></h1>
+  <p class="sub" id="sub">御社サイトのURLを入れるだけ。<b>同業3社</b>のオウンドメディアと比べて、<br>
+  「どのテーマで、誰が、どれだけ集客しているか」を無料でレポートにします。</p>
+  <p class="lead-strong">メディアを<span class="mk">これから始める会社</span>にも、<br class="pc"><span class="mk">運用中の会社</span>にも。状況に合わせた診断をお届けします。</p>
+  <div class="covers">
+   <a href="entry_diagnosis.html" target="_blank" rel="noopener" aria-label="参入診断のサンプル"><img src="assets/entry-cover.jpg" alt="参入診断レポートの表紙（サンプル）"></a>
+   <a href="improvement_diagnosis.html" target="_blank" rel="noopener" aria-label="改善診断のサンプル"><img src="assets/improvement-cover.jpg" alt="改善診断レポートの表紙（サンプル）"></a>
+   <div class="cap">▲ 実際のレポート<br>（サンプル・クリックで全文）</div>
   </div>
-  <form class="hero-form" id="heroForm" novalidate>
-   <label for="heroUrl">御社サイト（またはメディア）のURL</label>
-   <div class="row"><input type="url" id="heroUrl" placeholder="https://example.co.jp/" autocomplete="url"><button class="btn cv" type="submit">無料で診断する</button></div>
-   <div class="fine"><span>入力は約1分</span><span>費用は一切かかりません</span><span>しつこい営業はしません</span></div>
-  </form>
  </div>
- <div class="preview" aria-hidden="true">
-  <div class="sheet s1"><div class="ribbon">SAMPLE</div><div class="cv"><span style="opacity:.7;letter-spacing:2px;">ENTRY DIAGNOSIS</span><b>コンテンツマーケティング<br>参入診断レポート</b></div>
-   <div class="bd"><div class="k"><div>同業3社の流入<strong>3.6万</strong></div><div>広告換算<strong>615万円</strong></div></div>
-   <div style="font-weight:700;color:var(--dg);margin-bottom:4px;">最初に狙うキーワード</div>
-   <div class="bar"><i style="width:90%"></i></div><div class="bar"><i style="width:74%"></i></div><div class="bar"><i style="width:60%"></i></div><div class="bar"><i style="width:48%"></i></div></div></div>
-  <div class="sheet s2"><div class="ribbon">SAMPLE</div><div class="cv"><span style="opacity:.7;letter-spacing:2px;">IMPROVEMENT</span><b>オウンドメディア<br>改善診断レポート</b></div>
-   <div class="bd"><div style="font-weight:700;color:var(--dg);margin-bottom:4px;">テーマ地図</div>
-   <div class="hm">
-    <i style="background:var(--g2)"></i><i style="background:var(--g4)"></i><i style="background:var(--g3)"></i><i style="background:var(--g2)"></i>
-    <i style="background:var(--g1)"></i><i style="background:var(--g3)"></i><i style="background:var(--g2)"></i><i style="background:var(--g1)"></i>
-    <i style="background:#F4F8F5"></i><i style="background:var(--g3)"></i><i style="background:var(--g2)"></i><i style="background:var(--g1)"></i>
-    <i style="background:var(--g1)"></i><i style="background:var(--g3)"></i><i style="background:var(--g3)"></i><i style="background:var(--g1)"></i>
-    <i style="background:#F4F8F5"></i><i style="background:var(--g2)"></i><i style="background:var(--g1)"></i><i style="background:#F4F8F5"></i></div>
-   <div class="k" style="margin-top:8px;"><div>惜しいKW<strong>61語</strong></div><div>伸びしろ<strong>+1,100〜</strong></div></div></div></div>
-  <div class="tagp" style="left:24px;bottom:22px;">メディアがない会社には「参入診断」</div>
-  <div class="tagp" style="right:0;top:270px;">運用中の会社には「改善診断」</div>
+ <div class="rcard">
+  <div class="top"><span class="flag">完全無料・最短1営業日</span><h2><small>MEDIA DIAGNOSIS REPORT</small>無料メディア診断レポート</h2></div>
+  <div class="body">
+   <ul>
+    <li>同業3社の<b>推定流入と広告換算額</b></li>
+    <li>テーマ別の<b>激戦区と空き地</b>（テーマ地図）</li>
+    <li>これから始めるなら：<b>最初に狙うキーワード8本</b></li>
+    <li>運用中なら：<b>伸びしろと改善の順番</b></li>
+   </ul>
+   <form id="heroForm" novalidate>
+    <label for="heroUrl">御社サイト（またはメディア）のURL</label>
+    <input type="url" id="heroUrl" placeholder="https://example.co.jp/" autocomplete="url">
+    <button class="btn cv" type="submit">無料で診断を申し込む</button>
+   </form>
+   <div class="micro"><span>1分で申し込み完了</span><span>無理な営業は一切しません</span></div>
+  </div>
  </div>
 </div></div>
 
-<!-- STATS -->
-<div class="stats"><div class="wrap">
- <div class="stat"><div class="v">3<small>社</small></div><div class="l">事業が近い同業と比較</div></div>
- <div class="stat"><div class="v">8〜15</div><div class="l">テーマに分けて集客を可視化</div></div>
- <div class="stat"><div class="v">8<small>本</small></div><div class="l">最初に狙うキーワード（参入診断）</div></div>
- <div class="stat"><div class="v">5<small>つ</small></div><div class="l">この診断でわかること</div></div>
-</div></div>
-
-<!-- WORRIES -->
+<!-- ===== PROOF ===== -->
 <section><div class="wrap">
- <div class="sec-h"><div class="en">PROBLEM</div><h2>こんなお悩み、<br class="pc">ありませんか？</h2></div>
- <div class="worries">
-  <div class="worry"><b>記事で集客する意味があるのか</b>、社内で説明できない</div>
-  <div class="worry">同業がどれだけ<b>記事から問い合わせを得ているか</b>分からない</div>
-  <div class="worry">何から書けばいいのか、<b>どこなら勝てるのか</b>分からない</div>
-  <div class="worry">記事は増えたのに、<b>問い合わせにつながらない</b></div>
-  <div class="worry">更新が止まってしまい、<b>再開の優先順位</b>がつけられない</div>
-  <div class="worry">SEOツールを入れたが、<b>数字の読み方</b>が分からない</div>
+ <div class="sec-h"><div class="en">RESULTS</div><h2>記事で集客している会社は、<br class="pc"><span class="g">これだけの成果</span>を得ています</h2>
+ <p>BtoB企業のオウンドメディアが、広告に頼らず問い合わせを生んでいる公開事例です。</p></div>
+ <div class="cases">
+  <div class="case"><div class="co">株式会社LANY</div><div class="v">150<small>件／月</small></div><div class="l">オウンドメディア経由のリード獲得数</div><div class="sub">同時期の広告宣伝費は0円</div></div>
+  <div class="case"><div class="co">株式会社ベイジ</div><div class="v">400<small>件超／年</small></div><div class="l">オウンドメディア経由の問い合わせ件数</div><div class="sub">記事が営業を代わりに担う</div></div>
+  <div class="case"><div class="co">StockSun株式会社</div><div class="v">1,317<small>件／年</small></div><div class="l">オウンドメディア経由の問い合わせ件数</div><div class="sub">記事が積み上がるほど増える</div></div>
  </div>
- <div class="arrow"></div>
- <p class="resolve">その判断材料を、<mark>同業との比較</mark>で1本のレポートにします。</p>
+ <p class="src">※ いずれも他社の公開事例で、AIメディアくんの導入実績ではありません。同等の成果をお約束するものではありません。<br>
+ 出典：株式会社LANY「BtoBのコンテンツマーケティング成功事例9選」（2026年1月14日公開）。LANYの数値は2022年8月時点、ベイジは2020年時点。</p>
 </div></section>
 
-<!-- LEARN 5 -->
+<!-- ===== WHY NOW ===== -->
 <section class="alt"><div class="wrap">
- <div class="sec-h"><div class="en">WHAT YOU GET</div><h2>この診断でわかる<br class="pc">5つのこと</h2></div>
- <div class="learn">
-  <div class="li"><div class="no"><small>POINT</small>01</div><div><h3>同業が記事から得ている集客の規模</h3><p>同業3社の推定流入と、それを広告で買った場合の金額（広告換算額）。記事の価値を、社内で説明できる数字にします。</p><span class="for">両方の診断</span></div>
-   <div class="viz"><div class="big">615<small>万円/月</small></div><div class="cap">同業3社の広告換算額（サンプル）</div></div></div>
-  <div class="li"><div class="no"><small>POINT</small>02</div><div><h3>テーマ別の「激戦区」と「空き地」</h3><p>キーワードをテーマ単位でまとめ、どのテーマで誰が勝っているか、誰も取れていないテーマはどこかを1枚の地図にします。</p><span class="for">両方の診断</span></div>
-   <div class="viz"><div class="hm">
-    <i style="background:var(--g4)"></i><i style="background:var(--g3)"></i><i style="background:var(--g1)"></i><i style="background:var(--g2)"></i><i style="background:var(--g1)"></i>
-    <i style="background:var(--g3)"></i><i style="background:var(--g2)"></i><i style="background:var(--g1)"></i><i style="background:var(--g1)"></i><i style="background:#F4F8F5"></i>
-    <i style="background:var(--g1)"></i><i style="background:var(--g1)"></i><i style="background:var(--g1)"></i><i style="background:#F4F8F5"></i><i style="background:#F4F8F5"></i></div></div></div>
-  <div class="li"><div class="no"><small>POINT</small>03</div><div><h3>成果が出るまでにかかる期間</h3><p>同業がメディアを始めてから、月5,000セッションに届くまで何ヶ月かかったか。始める時期を判断する材料になります。</p><span class="for">参入診断</span></div>
-   <div class="viz"><div class="b" style="width:100%;background:var(--dg)"></div><div class="b" style="width:83%"></div><div class="b" style="width:58%"></div><div class="cap">A社 24ヶ月／C社 20ヶ月／B社 14ヶ月（サンプル）</div></div></div>
-  <div class="li"><div class="no"><small>POINT</small>04</div><div><h3>最初に狙うべきキーワード8本</h3><p>需要・競合の手薄さ・難易度・御社の強みとの一致の4つで採点。「いまは狙わないキーワード」とその理由もお伝えします。</p><span class="for">参入診断</span></div>
-   <div class="viz"><div class="kw">冷凍倉庫 保管料 相場<b>難易度15</b></div><div class="kw">食品 物流代行<b>難易度18</b></div><div class="kw">冷凍 在庫管理 方法<b>難易度8</b></div></div></div>
-  <div class="li"><div class="no"><small>POINT</small>05</div><div><h3>伸びしろと、取り組む順番</h3><p>あと一歩（11〜20位）のキーワード、検索に出ていない記事、更新の状況から、効果の早い順に改善の方向性を示します。</p><span class="for">改善診断</span></div>
-   <div class="viz"><div class="big">+1,100<small>〜1,600</small></div><div class="cap">惜しいKW 61語を5位にした場合の推定増分（サンプル）</div></div></div>
+ <div class="sec-h"><div class="en">WHY NOW</div><h2>なぜ、いま<br class="pc">「同業との比較」なのか</h2></div>
+ <div class="why">
+  <div class="wcard"><div class="no">01</div><h3>広告は止めればゼロ。<br>記事は積み上がる。</h3><p>広告は出稿をやめた瞬間に流入が止まります。上位にいる記事は、公開後も追加費用なく集客を続けます。</p></div>
+  <div class="wcard"><div class="no">02</div><h3>検索1位のクリック率は<br><span class="big">約35%</span></h3><p>2位19%、3位12%、10位は1.5%。同じテーマでも、<b>上位を誰が取っているか</b>で集客は大きく変わります。</p></div>
+  <div class="wcard"><div class="no">03</div><h3>勝てる場所は、<br>同業と比べて初めて見える。</h3><p>キーワードを単独で調べても、どこが激戦で、どこが空いているかは分かりません。同業の実績と並べることで判断できます。</p></div>
  </div>
+ <p class="src" style="text-align:center;">出典：Keywordmap採用CTR（順位別クリック率）</p>
+ <div class="nowband"><p>同業は、どのテーマで集客しているのか。<b>まずは御社の業界の地図を、無料で確認しませんか。</b></p><a class="btn cv" href="#apply">無料診断を申し込む</a></div>
 </div></section>
 
-<!-- CTA BAND -->
-<div class="band"><div class="wrap"><p>御社の業界では、どうなっているか。<small>URLを入れるだけ。約1分で申し込めます。</small></p><a class="btn cv" href="#apply">無料で診断する</a></div></div>
-
-<!-- TWO REPORTS -->
+<!-- ===== CHECKLIST ===== -->
 <section><div class="wrap">
- <div class="sec-h"><div class="en">2 TYPES</div><h2>御社の状況に合わせて、<br class="pc">2種類のどちらかをお届けします</h2>
- <p>選ぶ必要はありません。フォームで「メディアの状況」を1つ選ぶだけで、適した診断をお送りします。</p></div>
- <div class="reports">
-  <div class="rep entry"><div class="hd"><div class="for">オウンドメディアが、まだない／止まっている会社</div><h3>参入診断</h3></div>
-   <div class="bd"><ul>
-    <li>同業3社が記事から得ている<b>推定流入・広告換算額</b></li>
-    <li>同業が成果を出すまでに<b>かかった期間</b></li>
-    <li>テーマ別の<b>激戦区と空き地</b></li>
-    <li>御社サイトの<b>現在の検索での強さ</b></li>
-    <li><b>最初に狙うべきキーワード8本</b>と、12ヶ月の進め方</li>
-   </ul><div class="out">わかること：<b>やる価値があるか</b>、そして<b>どこから始めればいいか</b></div></div></div>
-  <div class="rep"><div class="hd"><div class="for">オウンドメディアを運用している会社</div><h3>改善診断</h3></div>
-   <div class="bd"><ul>
-    <li>御社と同業3社の<b>推定流入・順位の比較</b></li>
-    <li>テーマ別に<b>どこで勝ち、どこで負けているか</b></li>
-    <li><b>あと一歩（11〜20位）</b>のキーワード</li>
-    <li>検索に出ていない記事と<b>更新の状況</b></li>
-    <li><b>改善の方向性</b>と、取り組む順番</li>
-   </ul><div class="out">わかること：<b>何が足りないか</b>、そして<b>何から直せばいいか</b></div></div></div>
+ <div class="sec-h"><div class="en">CHECK LIST</div><h2>こんなお悩み、<br class="pc"><span class="g">ありませんか？</span></h2><p>1つでも当てはまるなら、無料診断で現状を確認してみてください。</p></div>
+ <div class="chk">
+  <div><h3>これから始める／止まっている方<small>→ 参入診断</small></h3>
+   <div class="it">記事で集客する意味があるのか、<b>社内で説明できない</b></div>
+   <div class="it">何から書けばいいのか、<b>どこなら勝てるのか</b>分からない</div>
+   <div class="it">一度始めたが、<b>更新が止まったまま</b>になっている</div></div>
+  <div><h3>運用中の方<small>→ 改善診断</small></h3>
+   <div class="it">記事は増えたのに、<b>問い合わせにつながらない</b></div>
+   <div class="it">同業と比べて、<b>何が足りないのか</b>分からない</div>
+   <div class="it">新しく書くべきか、<b>既存記事を直すべきか</b>決められない</div></div>
  </div>
- <p class="route">検索データを見て、選択と違う診断の方が合うと判断した場合は、理由を添えてお届けします。</p>
+ <p class="chk-q">同業の実績と並べれば、<b>「やるべきか」「どこから直すか」</b>が見えてきます。</p>
+ <div class="ctaline"><a class="btn cv lg" href="#apply">無料診断で確認する</a></div>
 </div></section>
 
-<!-- COMPARE -->
-<section class="alt"><div class="wrap">
- <div class="sec-h"><div class="en">DIFFERENCE</div><h2>一般的な無料SEO診断との違い</h2>
+<!-- ===== REPORT ===== -->
+<section class="alt" id="report"><div class="wrap">
+ <div class="sec-h"><div class="en">FREE REPORT</div><h2>御社専用の<br class="pc"><span class="g">「メディア診断レポート」</span>をお届けします</h2>
+ <p>御社と同業3社の検索データを同じ物差しで解析し、約10ページのレポートにまとめます。</p></div>
+ <div class="rgrid">
+  <div class="ritem"><a class="shot" href="entry_diagnosis.html" target="_blank" rel="noopener"><img src="assets/entry-benchmark.jpg" alt="同業ベンチマークのページ（サンプル）" loading="lazy"></a>
+   <div class="tx"><div class="no">REPORT 01</div><h3>同業は、記事から何を得ているか</h3><p>同業3社の推定流入・広告換算額・問い合わせ換算。成果が出るまでにかかった期間も示します。</p><span class="for both">両方の診断</span></div></div>
+  <div class="ritem"><a class="shot" href="entry_diagnosis.html" target="_blank" rel="noopener"><img src="assets/entry-thememap.jpg" alt="テーマ地図のページ（サンプル）" loading="lazy"></a>
+   <div class="tx"><div class="no">REPORT 02</div><h3>テーマ地図</h3><p>キーワードをテーマ単位でまとめ、どこが激戦で、どこが空いているかを1枚で示します。</p><span class="for both">両方の診断</span></div></div>
+  <div class="ritem"><a class="shot" href="entry_diagnosis.html" target="_blank" rel="noopener"><img src="assets/entry-startkw.jpg" alt="最初に狙うキーワードのページ（サンプル）" loading="lazy"></a>
+   <div class="tx"><div class="no">REPORT 03</div><h3>最初に狙うべきキーワード8本</h3><p>需要・競合の手薄さ・難易度・御社の強みとの一致で採点。「いまは狙わないキーワード」と理由も添えます。</p><span class="for entry">参入診断</span></div></div>
+  <div class="ritem"><a class="shot" href="improvement_diagnosis.html" target="_blank" rel="noopener"><img src="assets/improvement-opportunity.jpg" alt="伸びしろのページ（サンプル）" loading="lazy"></a>
+   <div class="tx"><div class="no">REPORT 04</div><h3>伸びしろと、取り組む順番</h3><p>あと一歩（11〜20位）のキーワード、取れていないテーマ、更新の状況から、効果の早い順に方向性を示します。</p><span class="for imp">改善診断</span></div></div>
+ </div>
+ <div class="types">
+  <div class="type"><div class="tg">参入診断</div><h4>メディアがない／止まっている会社<small>コーポレートサイトのURLでOK</small></h4><p>やる価値があるか、そして<b>どこから始めればいいか</b>が分かります。</p></div>
+  <div class="type imp"><div class="tg">改善診断</div><h4>メディアを運用中の会社<small>メディアのURLを入力</small></h4><p>何が足りないか、そして<b>何から直せばいいか</b>が分かります。</p></div>
+ </div>
+ <p class="route">どちらを選ぶ必要もありません。フォームで「メディアの状況」を選ぶだけで、適した診断をお届けします。</p>
+ <div class="center"><a class="btn ghost" href="entry_diagnosis.html" target="_blank" rel="noopener">参入診断のサンプルを全文見る</a><a class="btn ghost" href="improvement_diagnosis.html" target="_blank" rel="noopener">改善診断のサンプルを全文見る</a></div>
+</div></section>
+
+<!-- ===== COMPARE ===== -->
+<section><div class="wrap">
+ <div class="sec-h"><div class="en">DIFFERENCE</div><h2>ほかの無料診断との違い</h2>
  <p>URLを入れてすぐ点数が出る診断ツールは便利です。この診断は、それとは別の問いに答えます。</p></div>
  <div class="cmp"><table>
-  <thead><tr><th></th><th>URL入力型の<br>即時診断ツール</th><th>コンサル会社の<br>個別診断</th><th class="us">AIメディアくん<br>無料メディア診断</th></tr></thead>
+  <thead><tr><th></th><th>URL入力型の<br>即時診断ツール</th><th>SEO会社の<br>個別診断</th><th class="us">AIメディアくん<br>無料メディア診断</th></tr></thead>
   <tbody>
    <tr><td>わかること</td><td><span class="mk b">○</span><small>サイト内部の点数・改善項目</small></td><td><span class="mk a">◎</span><small>課題の抽出・改善提案</small></td><td class="us"><span class="mk a">◎</span><small>同業との比較・テーマ別の勝ち負け</small></td></tr>
    <tr><td>同業との比較</td><td><span class="mk c">△</span><small>対象外のことが多い</small></td><td><span class="mk a">◎</span></td><td class="us"><span class="mk a">◎</span><small>事業が近い3社を選定</small></td></tr>
    <tr><td>メディアがない会社</td><td><span class="mk c">△</span><small>評価する記事がない</small></td><td><span class="mk b">○</span></td><td class="us"><span class="mk a">◎</span><small>参入診断で対応</small></td></tr>
    <tr><td>集客の金額換算</td><td><span class="mk c">—</span></td><td><span class="mk b">○</span></td><td class="us"><span class="mk a">◎</span><small>広告換算額で提示</small></td></tr>
-   <tr><td>届くまでの時間</td><td><span class="mk a">◎</span><small>数十秒〜数分</small></td><td><span class="mk c">△</span><small>ヒアリング後・数日〜</small></td><td class="us"><span class="mk b">○</span><small>1営業日</small></td></tr>
-   <tr><td>登録</td><td><span class="mk a">◎</span><small>不要のものが多い</small></td><td><span class="mk c">△</span><small>ヒアリングが必要</small></td><td class="us"><span class="mk b">○</span><small>フォーム入力 約1分</small></td></tr>
+   <tr><td>届くまでの時間</td><td><span class="mk a">◎</span><small>数十秒〜数分</small></td><td><span class="mk c">△</span><small>ヒアリング後・数日</small></td><td class="us"><span class="mk b">○</span><small>最短1営業日</small></td></tr>
+   <tr><td>申し込みの手間</td><td><span class="mk a">◎</span><small>登録不要のものが多い</small></td><td><span class="mk c">△</span><small>ヒアリングが必要</small></td><td class="us"><span class="mk b">○</span><small>フォーム入力 約1分</small></td></tr>
   </tbody></table></div>
  <p class="cmp-note">※ 各診断の一般的な傾向をまとめたもので、特定のサービスを評価するものではありません。すぐに点数を知りたい場合は、即時診断ツールも併せてご活用ください。</p>
 </div></section>
 
-<!-- SAMPLE -->
-<section><div class="wrap">
- <div class="sec-h"><div class="en">SAMPLE REPORT</div><h2>実際のレポートを、<br class="pc">そのままご覧いただけます</h2><p>社名・数値はサンプルです。実際のレポートは御社と同業3社のデータで作成します。</p></div>
- <div class="pages">
-  <div class="pg"><div class="top"><span>00</span>エグゼクティブサマリ</div><div class="in"><div class="b" style="width:70%"></div><div class="l"></div><div class="l" style="width:85%"></div><div class="l" style="width:60%"></div></div><div class="cap">結論と、わかったこと5つ</div></div>
-  <div class="pg"><div class="top"><span>01</span>同業のベンチマーク</div><div class="in"><div class="b" style="width:100%;background:var(--dg)"></div><div class="b" style="width:61%"></div><div class="b" style="width:34%"></div><div class="l" style="width:75%"></div></div><div class="cap">流入・広告換算・問い合わせ換算</div></div>
-  <div class="pg"><div class="top"><span>02</span>テーマ地図</div><div class="in"><div class="hm">
-   <i style="background:var(--g4)"></i><i style="background:var(--g3)"></i><i style="background:var(--g1)"></i><i style="background:var(--g2)"></i>
-   <i style="background:var(--g3)"></i><i style="background:var(--g2)"></i><i style="background:var(--g1)"></i><i style="background:var(--g1)"></i>
-   <i style="background:var(--g1)"></i><i style="background:var(--g1)"></i><i style="background:var(--g1)"></i><i style="background:#F4F8F5"></i></div><div class="l" style="width:80%"></div></div><div class="cap">激戦区と空き地</div></div>
-  <div class="pg"><div class="top"><span>04</span>最初に狙うキーワード</div><div class="in"><div class="l"></div><div class="l"></div><div class="l"></div><div class="l"></div><div class="l" style="width:70%"></div></div><div class="cap">8本と選定理由</div></div>
- </div>
- <div class="toc">
-  <div class="box"><h4>参入診断の目次</h4><ol start="0"><li>エグゼクティブサマリ</li><li>同業は記事から何を得ているか</li><li>テーマ地図</li><li>御社の現在地</li><li>最初に狙うべきキーワード</li><li>12ヶ月の進め方</li><li>次のステップ</li><li>調査方法と前提</li></ol></div>
-  <div class="box"><h4>改善診断の目次</h4><ol start="0"><li>エグゼクティブサマリ</li><li>全体比較</li><li>テーマ地図</li><li>御社記事の成績</li><li>伸びしろ</li><li>改善の方向性</li><li>次のステップ</li><li>調査方法と前提</li></ol></div>
- </div>
- <div class="center"><a class="btn ghost" href="entry_diagnosis.html" target="_blank" rel="noopener">参入診断のサンプルを見る</a><a class="btn ghost" href="improvement_diagnosis.html" target="_blank" rel="noopener">改善診断のサンプルを見る</a></div>
-</div></section>
-
-<!-- WHY FREE / ABOUT -->
-<section class="alt"><div class="wrap">
- <div class="sec-h"><div class="en">WHY FREE</div><h2>なぜ、無料なのか</h2></div>
- <div class="about">
-  <div>
-   <h3>この診断は、AIメディアくんが導入時に行う<br>「メディアプランニング」の一部です。</h3>
-   <p>AIメディアくんは、メディア戦略の設計からキーワード選定、執筆、公開までを13のAIエージェントで行う、BtoBメディアの構築・運用サービスです。</p>
-   <p>「何を書くか」を決める最初の工程を無料でお試しいただき、その精度を見たうえでご検討いただきたい。それが無料でお届けする理由です。<b>診断だけのご利用も歓迎です。</b></p>
-  </div>
-  <div class="proof"><h4>私たちの検証：同じAIに、渡す情報だけを変えた結果</h4>
-   <div class="row2"><span>情報なし</span><span class="tr"><i style="width:80%"></i></span><b>80</b></div>
-   <div class="row2"><span>事例を追加</span><span class="tr"><i style="width:88%"></i></span><b>88</b></div>
-   <div class="row2"><span>実データ＋独自の型</span><span class="tr"><i class="dk" style="width:92%"></i></span><b>92</b></div>
-   <p class="note">自社メディア「組織の右腕ジャーナル」での実測。記事の品質スコア（100点満点）。何を材料に書くかで、AI記事の品質は変わります。</p></div>
- </div>
- <div class="nums">
-  <div class="num"><div class="l">分担するAIエージェント</div><div class="v">13</div></div>
-  <div class="num"><div class="l">1記事あたりの費用</div><div class="v">1.5<small>万円</small></div></div>
-  <div class="num"><div class="l">1記事あたりの確認時間</div><div class="v">20<small>分</small></div></div>
-  <div class="num"><div class="l">ヒアリング</div><div class="v">30<small>分×週2</small></div></div>
- </div>
-</div></section>
-
-<!-- FLOW -->
-<section><div class="wrap">
- <div class="sec-h"><div class="en">FLOW</div><h2>お申し込みから、お届けまで</h2></div>
+<!-- ===== FLOW + FORM ===== -->
+<section class="alt" id="flow"><div class="wrap">
+ <div class="sec-h"><div class="en">FLOW</div><h2>お届けまでの流れ</h2></div>
+ <div class="trust"><span>完全無料</span><span>最短1営業日でお届け</span><span>無理な営業は一切しません</span></div>
  <div class="flow">
-  <div class="st"><div class="n">1</div><span class="who">約1分</span><h4>URLを入力</h4><p>御社サイトのURLと、メディアの状況を選ぶだけ。</p></div>
-  <div class="st"><div class="n">2</div><span class="who">AI＋担当者</span><h4>解析・確認</h4><p>AIが同業3社を選んで解析し、担当者が内容を確認します。</p></div>
-  <div class="st"><div class="n">3</div><span class="who">1営業日以内</span><h4>メールでお届け</h4><p>Webで読めるレポートと、PDFをお送りします。</p></div>
-  <div class="st"><div class="n">4</div><span class="who">ご希望の方</span><h4>30分の解説</h4><p>数字の読み方と、レポートに載せきれなかった詳細をご説明します。</p></div>
+  <div class="st"><div class="n">1</div><span class="who">約1分</span><h4>フォームから申し込み</h4><p>御社サイトのURLと、メディアの状況を選ぶだけ。</p></div>
+  <div class="st"><div class="n">2</div><span class="who">AI＋担当者</span><h4>解析・確認</h4><p>AIが同業3社を選んで解析し、担当者が1件ずつ内容を確認します。</p></div>
+  <div class="st"><div class="n">3</div><span class="who">最短1営業日</span><h4>レポートをお届け</h4><p>Webで読めるレポートとPDFをメールでお送りします。</p></div>
+  <div class="st"><div class="n">4</div><span class="who">ご希望の方</span><h4>30分で解説</h4><p>数字の読み方と、記事ごとの具体案をオンラインでご説明します。</p></div>
  </div>
-</div></section>
 
-<!-- HONEST -->
-<section class="alt"><div class="wrap">
- <div class="sec-h"><div class="en">NOTE</div><h2>あらかじめ、お伝えしておくこと</h2></div>
- <div class="honest">
-  <div class="hn"><h4>数値は「推定値」です</h4><p>流入数は検索データ（検索回数×順位ごとのクリック率）から推定しています。実際のアクセス数とは差があります。同業と<b>同じ方法で比べる</b>ための数字としてご覧ください。</p></div>
-  <div class="hn"><h4>記事ごとの指示は含みません</h4><p>レポートは現状と伸びしろ、方向性までです。「どの記事をどう直すか」「次に何を書くか」の具体案は、30分の解説の際にお渡しします。</p></div>
-  <div class="hn"><h4>毎月30社までの受付です</h4><p>AIの解析結果を担当者が1件ずつ確認してからお届けするため、受付数に上限を設けています。上限に達した場合は翌月の枠でご案内します。</p></div>
- </div>
-</div></section>
+ <div class="formwrap" id="apply">
+  <div class="formhd"><h3>無料メディア診断 お申し込みフォーム</h3><p>入力は約1分。最短1営業日でレポートをお届けします。</p></div>
+  <div class="form">
+   <div class="steps"><div class="on" id="st1">1. サイトの情報</div><div id="st2">2. ご連絡先</div><div id="st3">3. 完了</div></div>
 
-<!-- FAQ -->
-<section><div class="wrap">
- <div class="sec-h"><div class="en">FAQ</div><h2>よくあるご質問</h2></div>
- <div class="faq">
-  <details open><summary>本当に無料ですか？</summary><p>はい、費用は一切かかりません。診断だけのご利用も歓迎です。</p></details>
-  <details><summary>オウンドメディアがなくても診断できますか？</summary><p>できます。コーポレートサイトのURLを入力してください。同業がどれだけ記事で集客しているか、御社が始めるならどこから入るべきかを「参入診断」としてお届けします。</p></details>
-  <details><summary>比較する同業3社はどう決めますか？</summary><p>御社の事業内容と検索データから、事業が近く、かつ記事で集客している会社をAIが選び、担当者が確認します。比較したい会社がある場合はフォームでご指定いただけます。大手ポータルやニュースサイトは対象外です。</p></details>
-  <details><summary>数値はどのくらい正確ですか？</summary><p>検索データからの推定のため、実際のアクセス数とは差があります。4社を同じ方法で推定しているため、比較の目安としてお使いください。ご希望の方には、Search Consoleと連携した実測ベースの精密版を解説の際にご用意します。</p></details>
-  <details><summary>営業の電話はかかってきますか？</summary><p>レポートの読み方をご説明するため、担当者からご連絡する場合があります。不要な場合はその旨をお伝えいただければ、以降のご連絡は控えます。</p></details>
-  <details><summary>他社のサイトを診断してもらうことはできますか？</summary><p>ご自身が所属する会社のサイトに限らせていただいています。メールアドレスのドメインと診断するサイトが異なる場合は、確認のためご連絡することがあります。</p></details>
-  <details><summary>制作会社・代理店ですが、クライアントのサイトで申し込めますか？</summary><p>別途ご相談ください。パートナー向けのご案内をご用意しています。</p></details>
- </div>
-</div></section>
+   <form id="f1" novalidate>
+    <div class="fld" id="fUrl"><label for="url"><span class="req">必須</span>御社サイト（またはメディア）のURL</label>
+     <input type="url" id="url" placeholder="https://example.co.jp/column/" autocomplete="url">
+     <div class="hint">メディアがある場合はメディアのURL、ない場合はコーポレートサイトのURLを入力してください。</div>
+     <div class="err">URLを正しく入力してください（https:// から）</div></div>
+    <div class="fld" id="fStatus"><div class="lb"><span class="req">必須</span>オウンドメディアの状況</div>
+     <div class="choice">
+      <label><input type="radio" name="status" value="none"><b>まだない</b>これから検討</label>
+      <label><input type="radio" name="status" value="stopped"><b>止まっている</b>更新が半年以上ない</label>
+      <label><input type="radio" name="status" value="active"><b>運用中</b>定期的に更新している</label>
+     </div><div class="err">いずれかを選んでください</div></div>
+    <div class="result" id="result"></div>
+    <div class="fld" id="fSvc"><label for="svc"><span class="req" id="svcReq">必須</span>主なサービス（1行で）</label>
+     <input type="text" id="svc" placeholder="例：食品・冷凍品の物流アウトソーシング">
+     <div class="hint">同業3社とキーワードを特定するために使います。</div>
+     <div class="err">主なサービスを入力してください</div></div>
+    <div class="fld"><label for="comp"><span class="opt">任意</span>比較したい会社のURL（3社まで）</label>
+     <textarea id="comp" rows="2" placeholder="1行に1社（空欄の場合はAIが選びます）"></textarea></div>
+    <button class="btn cv" type="submit">次へ（ご連絡先の入力）</button>
+   </form>
 
-<!-- APPLY -->
-<section id="apply"><div class="wrap">
- <div class="sec-h"><div class="en">APPLY</div><h2>無料メディア診断に申し込む</h2><p>入力は約1分。レポートは1営業日以内にメールでお届けします。</p></div>
- <div class="form">
-  <div class="slotbar">今月の受付 <b>毎月30社まで</b> 上限に達した場合は翌月枠でご案内</div>
-  <div class="steps"><div class="on" id="st1">1. サイトの情報</div><div id="st2">2. ご連絡先</div><div id="st3">3. 完了</div></div>
+   <form id="f2" class="hidden" novalidate>
+    <div class="two-col">
+     <div class="fld" id="fCo"><label for="co"><span class="req">必須</span>会社名</label><input type="text" id="co" autocomplete="organization" placeholder="例）株式会社サンプル"><div class="err">入力してください</div></div>
+     <div class="fld" id="fNm"><label for="nm"><span class="req">必須</span>お名前</label><input type="text" id="nm" autocomplete="name" placeholder="例）山田 太郎"><div class="err">入力してください</div></div>
+    </div>
+    <div class="two-col">
+     <div class="fld"><label for="role"><span class="opt">任意</span>役職</label>
+      <select id="role"><option value="">選択してください</option><option>経営者・役員</option><option>部長クラス</option><option>課長・マネージャー</option><option>担当者</option><option>その他</option></select></div>
+     <div class="fld" id="fTel"><label for="tel"><span class="req">必須</span>電話番号</label><input type="tel" id="tel" autocomplete="tel" placeholder="例）0312345678"><div class="err">電話番号を入力してください</div></div>
+    </div>
+    <div class="fld" id="fMail"><label for="mail"><span class="req">必須</span>会社のメールアドレス</label><input type="email" id="mail" autocomplete="email" placeholder="例）taro@example.co.jp">
+     <div class="hint">レポートはこのアドレスにお送りします。フリーメールはご利用いただけません。</div>
+     <div class="err" id="mailErr">会社のメールアドレスを入力してください</div></div>
+    <label class="consent"><input type="checkbox" id="agree"><span><a href="#">プライバシーポリシー</a>に同意し、レポートのお届けと、AIメディアくんに関するご案内（メール・お電話）を受け取ることに同意します。</span></label>
+    <button class="btn cv" type="submit" id="submit2">無料診断を申し込む</button>
+    <p class="secure">入力内容はSSLで暗号化して送信されます</p>
+    <div style="text-align:center;"><button type="button" class="back" id="back">← サイトの情報に戻る</button></div>
+   </form>
 
-  <form id="f1" novalidate>
-   <div class="fld" id="fUrl"><label for="url">御社サイト（またはメディア）のURL<span class="req">必須</span></label>
-    <input type="url" id="url" placeholder="https://example.co.jp/column/" autocomplete="url">
-    <div class="hint">メディアがある場合はメディアのURL、ない場合はコーポレートサイトのURLを入力してください。</div>
-    <div class="err">URLを正しく入力してください（https:// から）</div></div>
-   <div class="fld" id="fStatus"><div class="lb">オウンドメディアの状況<span class="req">必須</span></div>
-    <div class="choice">
-     <label><input type="radio" name="status" value="none"><b>まだない</b>これから検討</label>
-     <label><input type="radio" name="status" value="stopped"><b>止まっている</b>更新が半年以上ない</label>
-     <label><input type="radio" name="status" value="active"><b>運用中</b>定期的に更新している</label>
-    </div><div class="err">いずれかを選んでください</div></div>
-   <div class="result" id="result"></div>
-   <div class="fld" id="fSvc"><label for="svc">主なサービス（1行で）<span class="req" id="svcReq">必須</span></label>
-    <input type="text" id="svc" placeholder="例：食品・冷凍品の物流アウトソーシング">
-    <div class="hint">同業3社とキーワードを特定するために使います。</div>
-    <div class="err">主なサービスを入力してください</div></div>
-   <div class="fld"><label for="comp">比較したい会社のURL<span class="opt">任意・3社まで</span></label>
-    <textarea id="comp" rows="2" placeholder="1行に1社（空欄の場合はAIが選びます）"></textarea></div>
-   <button class="btn cv" type="submit">次へ（ご連絡先の入力）</button>
-  </form>
-
-  <form id="f2" class="hidden" novalidate>
-   <div class="two-col">
-    <div class="fld" id="fCo"><label for="co">会社名<span class="req">必須</span></label><input type="text" id="co" autocomplete="organization"><div class="err">入力してください</div></div>
-    <div class="fld" id="fNm"><label for="nm">お名前<span class="req">必須</span></label><input type="text" id="nm" autocomplete="name"><div class="err">入力してください</div></div>
+   <div id="f3" class="hidden done">
+    <div class="ic">✓</div>
+    <h3 style="color:var(--dg);font-size:20px;margin-bottom:8px;">お申し込みを受け付けました</h3>
+    <p style="color:var(--gy);font-size:14px;" id="doneMsg"></p>
+    <ol><li>AIが同業3社を選び、解析を始めます</li><li>担当者が内容を確認します</li><li><b>最短1営業日</b>で、ご入力のアドレスへレポートをお送りします</li></ol>
    </div>
-   <div class="fld" id="fMail"><label for="mail">会社のメールアドレス<span class="req">必須</span></label><input type="email" id="mail" autocomplete="email" placeholder="name@example.co.jp">
-    <div class="hint">レポートはこのアドレスにお送りします。フリーメールはご利用いただけません。</div>
-    <div class="err" id="mailErr">会社のメールアドレスを入力してください</div></div>
-   <div class="fld" id="fTel"><label for="tel">電話番号<span class="req">必須</span></label><input type="tel" id="tel" autocomplete="tel" placeholder="03-1234-5678">
-    <div class="hint">レポートの読み方をご説明するため、担当者からお電話する場合があります。</div>
-    <div class="err">電話番号を入力してください</div></div>
-   <label class="consent"><input type="checkbox" id="agree"><span><a href="#">プライバシーポリシー</a>に同意し、レポートのお届けと、AIメディアくんに関するご案内（メール・お電話）を受け取ることに同意します。</span></label>
-   <button class="btn cv" type="submit" id="submit2">無料診断を申し込む</button>
-   <p class="secure">入力内容はSSLで暗号化して送信されます</p>
-   <div style="text-align:center;"><button type="button" class="back" id="back">← サイトの情報に戻る</button></div>
-  </form>
-
-  <div id="f3" class="hidden done">
-   <div class="ic">✓</div>
-   <h3 style="color:var(--dg);font-size:20px;margin-bottom:8px;">お申し込みを受け付けました</h3>
-   <p style="color:var(--gy);font-size:14px;" id="doneMsg"></p>
-   <ol><li>AIが同業3社を選び、解析を始めます</li><li>担当者が内容を確認します</li><li><b>1営業日以内</b>に、ご入力のアドレスへレポートをお送りします</li></ol>
   </div>
  </div>
- <p class="alt-cta" id="consult">診断の前に話を聞きたい方は <a href="#">30分の無料相談</a> もご利用いただけます。</p>
 </div></section>
+
+<!-- ===== TRANSITION ===== -->
+<div class="transit"><div class="wrap"><p>ここからは、このレポートを作る<b>「AIメディアくん」</b>についてご紹介します。</p></div></div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about"><div class="wrap">
+ <div class="about-lead">
+  <div>
+   <div class="sec-h" style="text-align:left;margin-bottom:10px;"><div class="en">ABOUT</div></div>
+   <h3>自社にしか書けない記事を、<br>AIが毎週つくる。</h3>
+   <p>AIメディアくんは、メディア戦略の設計からキーワード選定、執筆、図表、公開までを行う、BtoBメディアの構築・運用サービスです。</p>
+   <p>今回の診断は、AIメディアくんが導入時に行う<b>「メディアプランニング」の最初の工程</b>を、無料でお試しいただけるようにしたものです。</p>
+  </div>
+  <div class="steps3">
+   <div class="s3"><div class="k">選</div><b>選ぶ</b><span>毎週届くテーマ案から1つ選ぶ</span></div>
+   <div class="s3"><div class="k">押</div><b>押す</b><span>生成ボタンを押すだけ</span></div>
+   <div class="s3"><div class="k">見</div><b>確認する</b><span>読むべき箇所だけを確認</span></div>
+  </div>
+ </div>
+
+ <div class="sec-h"><div class="en">WHY AI MEDIA-KUN</div><h2>AIメディアくんが<br class="pc"><span class="g">選ばれる4つの理由</span></h2></div>
+ <div class="reasons">
+  <div class="rs"><div class="no"><small>REASON</small>01</div>
+   <div><h3>「何を書くか」から設計する</h3><p>キーワードを単語の羅列ではなく、テーマの塊（クラスター）で設計します。優先度は検索数だけでなく、商用価値・実現可能性・AI検索での機会の3つで採点。今回の診断の「テーマ地図」は、この設計の入口です。</p></div>
+   <div class="fig"><b style="color:var(--dg);font-size:12px;">キーワードの優先度を決める3つの軸</b><div class="kv" style="margin-top:6px;"><div><b style="font-size:15px;">商用価値</b><span>問い合わせに近いか</span></div><div><b style="font-size:15px;">実現性</b><span>勝てる難易度か</span></div><div><b style="font-size:15px;">AI検索</b><span>引用される余地</span></div></div></div></div>
+  <div class="rs"><div class="no"><small>REASON</small>02</div>
+   <div><h3>自社にしか書けない記事になる</h3><p>サイト・社内資料・数字を読み込み、足りない情報はAIが作る質問シートに沿った<b>週2回・30分のヒアリング</b>で補います。一般論ではなく、御社の判断や経験が入った記事をつくります。</p></div>
+   <div class="fig"><b style="color:var(--dg);font-size:12px;">同じAIに、渡す情報だけを変えた結果（品質スコア）</b>
+    <div class="bar3"><span>情報なし</span><span class="t"><i style="width:80%"></i></span><b>80</b></div>
+    <div class="bar3"><span>事例を追加</span><span class="t"><i style="width:88%"></i></span><b>88</b></div>
+    <div class="bar3"><span>実データ＋独自の型</span><span class="t"><i class="dk" style="width:92%"></i></span><b>92</b></div>
+    <span style="font-size:11px;color:var(--lt);">自社メディアでの実測（100点満点）</span></div></div>
+  <div class="rs"><div class="no"><small>REASON</small>03</div>
+   <div><h3>13のAIエージェントが分担する</h3><p>1つのAIに全部やらせず、戦略設計からヒアリング設計、競合調査、執筆、図表、校正、品質評価までを13の工程に分け、それぞれ専門のAIが担当。合格ラインを下回った記事は自動で差し戻されます。</p></div>
+   <div class="fig"><div class="agents"><span>戦略設計</span><span>キーワード選定</span><span>CV導線設計</span><span>KPI設計</span><span class="k">ナレッジ管理</span><span class="k">ヒアリング設計</span><span class="k">競合調査</span><span class="k">示唆の設計</span><span>ストーリー設計</span><span>構成・執筆</span><span>図表作成</span><span>校正</span><span>品質評価</span></div></div></div>
+  <div class="rs"><div class="no"><small>REASON</small>04</div>
+   <div><h3>書いたあとも、止まらない</h3><p>毎週テーマ案が届くので、ネタ切れで止まりません。公開済み記事の更新（リライト）もAIが行うため、記事が増えても運用が重くなりません。</p></div>
+   <div class="fig"><div class="kv"><div><b>20<small>分</small></b><span>1記事の確認時間</span></div><div><b>週2<small>×30分</small></b><span>ヒアリング</span></div><div><b>毎週</b><span>テーマ提案</span></div></div></div></div>
+ </div>
+
+ <div class="trial">
+  <div class="badge"><span>AIメディアくん</span><b>初月</b><span>無料</span></div>
+  <div><h3>AIメディアくんは、初月無料でお試しいただけます。</h3>
+   <p>診断で見えた「最初に狙うテーマ」から、実際に記事をつくるところまで。1ヶ月間、費用をかけずにお試しいただけます。</p>
+   <small>※ 適用条件・料金は、診断結果の解説の際にご案内します。診断のみのご利用も歓迎です。</small></div>
+  <a class="btn cv" href="#apply">まずは無料診断から</a>
+ </div>
+</div></section>
+
+<!-- ===== FAQ ===== -->
+<section class="alt" id="faq"><div class="wrap">
+ <div class="sec-h"><div class="en">FAQ</div><h2>よくあるご質問</h2><p>無料診断に関するご不安にお答えします。</p></div>
+ <div class="faq">
+  <details open><summary>本当に無料ですか？追加費用はかかりませんか？</summary><p>はい、完全無料です。レポートの作成・お届け・30分の解説まで、費用は一切かかりません。</p></details>
+  <details><summary>レポートを受け取ったら、契約しないといけませんか？</summary><p>いいえ。診断だけのご利用も歓迎です。解説の際にAIメディアくんをご案内することはありますが、無理にお勧めすることはありません。</p></details>
+  <details><summary>まだオウンドメディアを持っていなくても申し込めますか？</summary><p>はい。コーポレートサイトのURLでお申し込みください。同業がどれだけ記事で集客しているか、御社が始めるならどこから入るべきかを「参入診断」としてお届けします。</p></details>
+  <details><summary>比較する同業3社はどう決めますか？</summary><p>御社の事業内容と検索データから、事業が近く、かつ記事で集客している会社をAIが選び、担当者が確認します。比較したい会社がある場合はフォームでご指定いただけます。大手ポータルやニュースサイトは対象外です。</p></details>
+  <details><summary>レポートの数値はどのくらい正確ですか？</summary><p>流入数は検索データ（検索回数×順位ごとのクリック率）からの推定で、実際のアクセス数とは差があります。4社を同じ方法で推定しているため、比較の目安としてお使いください。解説の際に、Search Consoleと連携した実測ベースの精密版もご用意できます。</p></details>
+  <details><summary>記事ごとの改善指示ももらえますか？</summary><p>レポートでお届けするのは、現状・伸びしろ・方向性までです。「どの記事をどう直すか」「次に何を書くか」の具体案は、30分の解説の際に御社の状況を伺ったうえでお渡しします。</p></details>
+  <details><summary>AIメディアくんの料金はどのくらいですか？</summary><p>AIメディアくんは初月無料でお試しいただけます。料金は記事の本数やご支援の範囲によって異なるため、診断結果の解説の際に、御社に合った形でご案内します。</p></details>
+  <details><summary>他社のサイトを診断してもらうことはできますか？</summary><p>ご自身が所属する会社のサイトに限らせていただいています。メールアドレスのドメインと診断するサイトが異なる場合は、確認のためご連絡することがあります。制作会社・代理店の方は別途ご相談ください。</p></details>
+ </div>
+</div></section>
+
+<!-- ===== FINAL ===== -->
+<div class="final"><div class="wrap">
+ <h2>同業は、記事から毎月どれだけ集客しているか。<br class="pc">まずは無料で確かめてください。</h2>
+ <p>URLを入れるだけ。最短1営業日でレポートをお届けします。</p>
+ <a class="btn cv lg" href="#apply">無料で診断を申し込む</a>
+ <div class="trustw"><span>完全無料</span><span>メディアがなくても診断可</span><span>無理な営業は一切しません</span></div>
+</div></div>
 
 <footer>© 2026 株式会社MIRAIKU ｜ <a href="#">会社概要</a> ｜ <a href="#">プライバシーポリシー</a></footer>
+<a class="sidetab" href="#apply">無料診断はこちら</a>
 <div class="mcta"><a class="btn cv" href="#apply">無料で診断する（約1分）</a></div>
 
 <script>
@@ -542,8 +538,8 @@ footer a{color:rgba(255,255,255,.85);}
   // 広告別の見出し差し替え（?type=entry / ?type=improve）
   const type = new URLSearchParams(location.search).get('type');
   const copy = {
-    entry: ['同業は、記事から<br><span class="nw">毎月<em>どれだけ</em></span><span class="nw">集客しているか。</span>','オウンドメディアをまだ持っていない会社のための「参入診断」。<br>同業3社の集客規模と、御社が最初に狙うべきキーワード8本をお届けします。'],
-    improve: ['御社のメディアに、<br><em>何が足りない</em>のか。','記事を続けているのに問い合わせが増えない会社のための「改善診断」。<br>同業3社と比べて、取れていないテーマと伸びしろを明らかにします。']
+    entry: ['同業は、記事から<br><span class="nw">毎月<span class="g">どれだけ</span></span><span class="nw">集客しているか。</span>','オウンドメディアをまだ持っていない会社のための<b>「参入診断」</b>。<br>同業3社の集客規模と、御社が最初に狙うべきキーワード8本をお届けします。'],
+    improve: ['御社のメディアに、<br><span class="nw"><span class="g">何が足りない</span>のか。</span>','記事を続けているのに問い合わせが増えない会社のための<b>「改善診断」</b>。<br>同業3社と比べて、取れていないテーマと伸びしろを明らかにします。']
   };
   if (copy[type]) { $('#h1').innerHTML = copy[type][0]; $('#sub').innerHTML = copy[type][1]; }
   if (type === 'entry') document.querySelector('input[value=none]').checked = true;
@@ -552,7 +548,7 @@ footer a{color:rgba(255,255,255,.85);}
   // ヒーローのURL → フォームへ引き継ぎ
   $('#heroForm').addEventListener('submit', e => {
     e.preventDefault(); $('#url').value = $('#heroUrl').value.trim();
-    $('#apply').scrollIntoView({behavior:'smooth'}); setTimeout(()=>$('#url').focus({preventScroll:true}), 500); update();
+    $('#apply').scrollIntoView({behavior:'smooth'}); setTimeout(()=>$('#url').focus({preventScroll:true}), 600); update();
   });
 
   const isUrl = v => { try { const u = new URL(v); return /^https?:$/.test(u.protocol) && u.hostname.includes('.'); } catch { return false; } };
