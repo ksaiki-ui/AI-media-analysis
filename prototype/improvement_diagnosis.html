@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>無料メディア改善診断レポート</title><style>/* MIRAIKU メディア診断レポート 共通スタイル（Pro-D-use 競合分析レポートの体系を踏襲） */
+:root{--pg:#0F5C3F;--dg:#0A3F2B;--lg:#E8F4ED;--ag:#3CAA5C;--tx:#1A1A1A;--gy:#4A4A4A;
+ --lt:#6B6B6B;--bd:#E5E7EB;--pp:#fff;--nb:#FDF6F2;--nt:#B85042;--wb:#FBF8EE;--wt:#8A6A2F;
+ --g0:#F4F8F5;--g1:#D8EDDF;--g2:#A6D6B4;--g3:#5FB57A;--g4:#1F7A4D;}
+*{margin:0;padding:0;box-sizing:border-box;}
+@page{size:A4;margin:14mm 13mm 16mm 13mm;}
+body{font-family:'Noto Sans CJK JP','Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+ color:var(--tx);background:var(--pp);font-size:9.6pt;line-height:1.72;-webkit-font-smoothing:antialiased;font-feature-settings:"palt";}
+.sample{background:var(--wb);color:var(--wt);text-align:center;font-size:8.5pt;padding:6px 12px;}
+@media print{.sample{display:none;}}
+.page{max-width:188mm;margin:0 auto;padding:0 6mm 22mm;}
+p{margin:0 0 7px 0;}
+strong{color:var(--pg);}
+.cover{min-height:250mm;background:linear-gradient(135deg,#0F5C3F 0%,#0A3F2B 100%);color:#fff;
+ display:flex;flex-direction:column;justify-content:space-between;padding:22mm 18mm;page-break-after:always;}
+.cover-label{letter-spacing:4px;font-size:9.5pt;opacity:.7;font-weight:500;}
+.cover-tagline{font-size:12pt;font-weight:300;margin-bottom:12px;opacity:.9;}
+.cover-title{font-size:23pt;font-weight:900;line-height:1.42;margin-bottom:16px;}
+.cover-sub{font-size:11pt;border-top:1px solid rgba(255,255,255,.35);padding-top:13px;opacity:.92;line-height:1.85;}
+.cover-bot{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;}
+.cover-meta{font-size:9pt;line-height:2;}
+.cover-meta .lbl{opacity:.6;letter-spacing:2px;font-size:7.5pt;display:block;}
+.wm{font-size:14pt;font-weight:900;letter-spacing:5px;}
+.conf{display:inline-block;border:1px solid rgba(255,255,255,.5);padding:2px 11px;font-size:8pt;letter-spacing:2px;margin-top:9px;}
+h1.sec{page-break-before:always;background:linear-gradient(135deg,#0F5C3F 0%,#0A3F2B 100%);color:#fff;
+ font-size:14.5pt;font-weight:700;padding:12px 19px;border-radius:4px;margin:30px 0 4px;}
+h1.sec:first-of-type{page-break-before:avoid;}
+h1.sec .no{opacity:.55;font-weight:900;margin-right:11px;}
+h1.sec .en{display:block;font-size:7.5pt;font-weight:400;opacity:.65;letter-spacing:1.5px;margin-top:1px;}
+.lead{color:var(--gy);font-size:9.2pt;margin:8px 2px 13px;}
+h2{color:var(--pg);font-size:11.5pt;font-weight:700;margin:20px 0 7px;padding-bottom:5px;border-bottom:2px solid var(--lg);}
+h3{font-size:10pt;font-weight:700;margin:14px 0 5px;color:var(--dg);}
+.scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;margin:9px 0 12px;font-size:8.5pt;page-break-inside:avoid;}
+th{background:var(--dg);color:#fff;font-weight:700;padding:6px 8px;text-align:left;border:1px solid var(--dg);font-size:8.2pt;}
+td{padding:5px 8px;border:1px solid var(--bd);vertical-align:top;line-height:1.62;}
+tbody tr:nth-child(even){background:#FAFBFA;}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+td.c,th.c{text-align:center;}
+.hl{background:var(--lg)!important;font-weight:700;}
+.callout{background:var(--lg);border-left:4px solid var(--pg);padding:10px 14px;margin:11px 0;font-size:9.2pt;border-radius:0 4px 4px 0;}
+.warn{background:var(--wb);border-left:4px solid #C9A227;padding:10px 14px;margin:11px 0;font-size:9.2pt;border-radius:0 4px 4px 0;}
+.warn b{color:var(--wt);}
+.danger{background:var(--nb);border-left:4px solid #D88A6A;padding:10px 14px;margin:11px 0;font-size:9.2pt;border-radius:0 4px 4px 0;}
+.danger b{color:var(--nt);}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:11px 0 14px;}
+.kpi .i{border:1px solid var(--bd);border-top:3px solid var(--pg);border-radius:3px;padding:9px 11px;}
+.kpi .l{font-size:7.6pt;color:var(--lt);}
+.kpi .v{font-size:15.5pt;font-weight:900;color:var(--dg);line-height:1.2;font-variant-numeric:tabular-nums;}
+.kpi .v small{font-size:8.5pt;font-weight:700;}
+.kpi .d{font-size:7.4pt;color:var(--lt);margin-top:2px;line-height:1.5;}
+.note{font-size:8pt;color:var(--lt);line-height:1.65;margin:5px 0 10px;}
+ul,ol{margin:5px 0 9px 18px;}li{margin-bottom:3px;}
+.ok{color:var(--pg);font-weight:700;} .ng{color:var(--nt);font-weight:700;} .mid{color:var(--wt);font-weight:700;}
+.h{display:grid;grid-template-columns:128px 1fr 64px;gap:9px;align-items:center;font-size:8.4pt;margin:3px 0;}
+.h .t{height:15px;background:#EDF1EE;border-radius:3px;overflow:hidden;display:flex;}
+.h .t i{display:block;height:100%;background:var(--ag);}
+.h .t i.dk{background:var(--dg);} .h .t i.rd{background:#C4695C;} .h .t i.am{background:#D3AC4E;} .h .t i.lt{background:var(--g2);}
+.h .n{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.box{border:1px solid var(--bd);border-radius:5px;padding:11px 13px;background:#FAFBFA;}
+.box h4{margin:0 0 6px;font-size:9.2pt;color:var(--dg);}
+.box.me{border-color:var(--pg);background:var(--lg);}
+.tag{display:inline-block;border-radius:3px;padding:0 7px;font-size:7.6pt;font-weight:700;margin:1px 3px 1px 0;white-space:nowrap;}
+.t-win{background:var(--lg);color:var(--pg);} .t-lose{background:var(--nb);color:var(--nt);} .t-eq{background:var(--wb);color:var(--wt);}
+.term{display:inline-block;background:#F1F5F2;border:1px solid #DDE6E0;border-radius:11px;padding:1px 9px;font-size:8pt;margin:2px 3px 2px 0;}
+/* ヒートマップ（推定セッション） */
+table.heat td.v{text-align:center;font-variant-numeric:tabular-nums;font-weight:700;}
+.v0{background:var(--g0)!important;color:#9AA59E;} .v1{background:var(--g1)!important;} .v2{background:var(--g2)!important;}
+.v3{background:var(--g3)!important;color:#fff;} .v4{background:var(--g4)!important;color:#fff;}
+.legend{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:7.6pt;color:var(--lt);margin:-4px 0 10px;}
+.legend span{width:20px;height:10px;display:inline-block;border-radius:2px;}
+/* 凡例ドット */
+.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 4px 0 8px;vertical-align:middle;}
+/* ロードマップ */
+.wave{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 12px;}
+.wave .w{border:1px solid var(--bd);border-radius:5px;overflow:hidden;}
+.wave .w .hd{background:var(--dg);color:#fff;padding:7px 11px;font-weight:700;font-size:9pt;}
+.wave .w .hd small{display:block;font-weight:400;opacity:.75;font-size:7.6pt;}
+.wave .w.first .hd{background:var(--ag);}
+.wave .w .bd{padding:9px 11px;font-size:8.4pt;}
+.cta{border:2px solid var(--pg);border-radius:6px;padding:14px 16px;margin:14px 0;}
+.cta h4{color:var(--pg);font-size:10.5pt;margin-bottom:6px;}
+@media(max-width:820px){
+ .two,.wave{grid-template-columns:1fr;} .kpi{grid-template-columns:1fr 1fr;}
+ .cover{padding:14mm 8mm;min-height:auto;gap:28px;} .cover-title{font-size:19pt;}
+ .page{padding:0 16px 22mm;} .h{grid-template-columns:96px 1fr 54px;}
+}
+</style></head><body>
+<div class="sample">サンプル：社名・ドメイン・数値はすべてダミーです（レポート構成の確認用）</div>
+<div class="cover">
+ <div><div class="cover-label">M E D I A &nbsp;I M P R O V E M E N T &nbsp;D I A G N O S I S</div><div class="conf">FREE REPORT</div></div>
+ <div><div class="cover-tagline">オウンドメディア 改善診断</div>
+ <div class="cover-title">株式会社サンプルHR 様<br>オウンドメディア<br>改善診断レポート</div>
+ <div class="cover-sub">御社メディアの全85記事と同業3社のメディアを解析し、<br>
+ 「いま、どのテーマで、どれだけ集客できているか」と「どこに伸びしろがあるか」を明らかにします。</div></div>
+ <div class="cover-bot"><div class="cover-meta"><span class="lbl">TARGET</span>sample-hr.co.jp/column/（85本）<br>
+ <span class="lbl">BENCHMARK</span>A社 alpha-hr.jp/media/ ・ B社 media.beta-jinji.com ・ C社 gamma-consul.co.jp/blog/<br>
+ <span class="lbl">DATE</span>2026年10月1日 取得・分析</div>
+ <div><div class="wm">MIRAIKU</div><div style="font-size:8pt;opacity:.75;">AIメディアくん｜株式会社MIRAIKU</div></div></div>
+</div>
+
+<div class="page">
+<h1 class="sec"><span class="no">00</span>エグゼクティブサマリ<span class="en">SUMMARY</span></h1>
+<div class="callout"><b>結論：御社メディアは「読まれる記事」は作れているが、「問い合わせに近い検索」にほぼ出ていません。</b>
+推定流入の<b>95%が「知りたい」段階の検索</b>で、同業A社・B社が月4,000〜7,000セッションを得ている
+「コンサル比較・費用」「評価者研修」などの比較検討テーマでは、御社の流入は月150セッションにとどまります。
+伸びしろは新規記事よりも先に、<b>順位11〜20位で止まっている61キーワード</b>と、<b>検索に表示されていない28本</b>にあります。</div>
+<div class="kpi">
+<div class="i"><div class="l">推定月間セッション</div><div class="v">3,200</div><div class="d">幅 1,900〜4,800／同業3社平均 13,300</div></div>
+<div class="i"><div class="l">10位以内のキーワード</div><div class="v">70<small>語</small></div><div class="d">同業3社平均 329語</div></div>
+<div class="i"><div class="l">11〜20位の「惜しい」KW</div><div class="v">61<small>語</small></div><div class="d">上位化で＋1,100〜1,600セッション</div></div>
+<div class="i"><div class="l">検索に表示されていない記事</div><div class="v ng">28<small>本</small></div><div class="d">全85本の33%</div></div>
+</div>
+<h2>この診断で分かった5つのこと</h2>
+<table><thead><tr><th class="c" style="width:5%">#</th><th style="width:31%">発見</th><th>意味</th></tr></thead><tbody>
+<tr><td class="c"><b>1</b></td><td><b>「作り方」系の記事は強い</b></td><td>「人事評価制度 作り方」2位、「中小企業 人事評価制度」3位など、<b>基礎テーマでは同業と互角以上</b>の記事がある</td></tr>
+<tr><td class="c"><b>2</b></td><td><b>比較検討テーマがほぼ空白</b></td><td>流入の95%が「知りたい」段階。「人事評価コンサル 比較」「費用」では御社の記事が50位以内に1本もない。<b>A社はこの領域だけで月3,600セッション</b></td></tr>
+<tr><td class="c"><b>3</b></td><td><b>61語が“あと一歩”の位置にいる</b></td><td>11〜20位のキーワードが61語。このうち15語は検索数500以上。<b>新規記事を書くより早く成果が出る</b>候補</td></tr>
+<tr><td class="c"><b>4</b></td><td><b>記事の3分の1が検索に出ていない</b></td><td>85本中28本は50位以内のキーワードを1つも持たない。テーマの重複（評価シート関連で5本が競合）も見られる</td></tr>
+<tr><td class="c"><b>5</b></td><td><b>更新がほぼ止まっている</b></td><td>直近12ヶ月で更新された記事は9%。<b>A社は72%を更新</b>しており、順位の維持力に差がある</td></tr>
+</tbody></table>
+
+<h1 class="sec"><span class="no">01</span>全体比較<span class="en">OVERVIEW</span></h1>
+<p class="lead">御社と同業3社のメディアを、規模・順位・効率・運用の4面で比べます。</p>
+<div class="scroll"><table><thead><tr><th style="width:17%">メディア</th><th class="n">推定セッション／月</th><th class="n">1〜3位</th><th class="n">4〜10位</th><th class="n">11〜20位</th><th class="n">記事数</th><th class="n">1記事あたり</th><th class="n">12ヶ月内の更新率</th></tr></thead><tbody>
+<tr class="hl"><td>御社</td><td class="n">約3,200</td><td class="n">18</td><td class="n">52</td><td class="n">61</td><td class="n">85本</td><td class="n">38</td><td class="n ng">9%</td></tr>
+<tr><td>A社</td><td class="n">約21,500</td><td class="n">140</td><td class="n">380</td><td class="n">290</td><td class="n">320本</td><td class="n">67</td><td class="n">72%</td></tr>
+<tr><td>B社</td><td class="n">約12,800</td><td class="n">88</td><td class="n">240</td><td class="n">200</td><td class="n">210本</td><td class="n">61</td><td class="n">55%</td></tr>
+<tr><td>C社</td><td class="n">約5,600</td><td class="n">30</td><td class="n">110</td><td class="n">150</td><td class="n">140本</td><td class="n">40</td><td class="n">20%</td></tr>
+</tbody></table></div>
+<div class="box"><h4>推定月間セッション</h4>
+<div class="h"><span>A社</span><span class="t"><i class="dk" style="width:100%"></i></span><span class="n">21,500</span></div>
+<div class="h"><span>B社</span><span class="t"><i style="width:60%"></i></span><span class="n">12,800</span></div>
+<div class="h"><span>C社</span><span class="t"><i style="width:26%"></i></span><span class="n">5,600</span></div>
+<div class="h"><span><b>御社</b></span><span class="t"><i class="am" style="width:15%"></i></span><span class="n">3,200</span></div>
+</div>
+<p style="margin-top:9px;">記事数はA社の約1/4ですが、<b>1記事あたりの流入（38）はC社（40）と同水準</b>で、記事の質そのものに大きな差はありません。
+差を生んでいるのは<b>記事数と、どのテーマに記事を置いているか</b>です（→ 02章）。</p>
+<p class="note">指名キーワード（社名・サービス名を含む検索）は除外。推定セッションは検索数×順位別クリック率による推定値です。</p>
+
+<h1 class="sec"><span class="no">02</span>テーマ地図 ── どこで集客できているか<span class="en">THEME MAP</span></h1>
+<p class="lead">4社のランクインキーワードを共通のテーマ軸で分類し、テーマごとの推定月間セッションを並べました。</p>
+<div class="scroll"><table class="heat"><thead><tr><th style="width:32%">テーマ</th><th class="c">御社</th><th class="c">A社</th><th class="c">B社</th><th class="c">C社</th><th class="c">御社の位置</th></tr></thead><tbody>
+<tr><td><b>人事評価制度の作り方</b><br><span class="note">知りたい</span></td><td class="v v2">1,400</td><td class="v v4">4,200</td><td class="v v3">2,600</td><td class="v v2">1,200</td><td class="c"><span class="tag t-win">健闘</span></td></tr>
+<tr><td><b>評価項目・評価シート例</b><br><span class="note">知りたい</span></td><td class="v v1">900</td><td class="v v3">3,800</td><td class="v v2">1,900</td><td class="v v1">600</td><td class="c"><span class="tag t-eq">伸びしろ</span></td></tr>
+<tr class="hl"><td><b>人事評価コンサルの比較・費用</b><br><span class="note">比較検討</span></td><td class="v v0">0</td><td class="v v3">3,600</td><td class="v v2">1,500</td><td class="v v1">300</td><td class="c"><span class="tag t-lose">空白</span></td></tr>
+<tr><td><b>等級制度・賃金制度</b><br><span class="note">知りたい</span></td><td class="v v1">300</td><td class="v v3">2,900</td><td class="v v3">2,200</td><td class="v v1">900</td><td class="c"><span class="tag t-eq">伸びしろ</span></td></tr>
+<tr><td><b>目標管理・OKR</b><br><span class="note">知りたい</span></td><td class="v v1">450</td><td class="v v3">2,800</td><td class="v v2">1,200</td><td class="v v2">1,400</td><td class="c"><span class="tag t-eq">伸びしろ</span></td></tr>
+<tr class="hl"><td><b>評価者研修・フィードバック</b><br><span class="note">比較検討</span></td><td class="v v1">150</td><td class="v v2">1,600</td><td class="v v2">1,800</td><td class="v v1">500</td><td class="c"><span class="tag t-lose">手薄</span></td></tr>
+<tr class="hl"><td><b>人事評価システムの比較</b><br><span class="note">比較検討</span></td><td class="v v0">0</td><td class="v v2">1,900</td><td class="v v1">900</td><td class="v v0">0</td><td class="c"><span class="tag t-lose">空白</span></td></tr>
+<tr><td><b>評価への不満・離職</b><br><span class="note">知りたい</span></td><td class="v v0">0</td><td class="v v1">700</td><td class="v v1">700</td><td class="v v1">700</td><td class="c"><span class="tag t-lose">空白</span></td></tr>
+<tr><td>合計</td><td class="n"><b>3,200</b></td><td class="n">21,500</td><td class="n">12,800</td><td class="n">5,600</td><td></td></tr>
+</tbody></table></div>
+<div class="legend">推定月間セッション <span class="v0"></span>0 <span class="v1"></span>〜1,000 <span class="v2"></span>〜2,000 <span class="v3"></span>〜4,000 <span class="v4"></span>4,000〜</div>
+
+<h2>2.1 検索意図の構成</h2>
+<p>同じ「人事評価」の読者でも、<b>調べている段階</b>と<b>依頼先を比べている段階</b>では問い合わせのしやすさが大きく違います。</p>
+<div class="box">
+<div class="h"><span><b>御社</b></span><span class="t"><i class="lt" style="width:95%"></i><i class="dk" style="width:5%"></i></span><span class="n">5%</span></div>
+<div class="h"><span>A社</span><span class="t"><i class="lt" style="width:67%"></i><i class="dk" style="width:33%"></i></span><span class="n">33%</span></div>
+<div class="h"><span>B社</span><span class="t"><i class="lt" style="width:67%"></i><i class="dk" style="width:33%"></i></span><span class="n">33%</span></div>
+<div class="h"><span>C社</span><span class="t"><i class="lt" style="width:86%"></i><i class="dk" style="width:14%"></i></span><span class="n">14%</span></div>
+<p class="note" style="margin:6px 0 0;"><span class="dot" style="background:var(--g2);margin-left:0;"></span>知りたい<span class="dot" style="background:var(--dg);"></span>比較検討（右の数値は比較検討の比率）</p>
+</div>
+
+<h2>2.2 各メディアの特性</h2>
+<div class="scroll"><table><thead><tr><th style="width:12%">メディア</th><th style="width:24%">タイプ</th><th>特徴</th></tr></thead><tbody>
+<tr class="hl"><td>御社</td><td><b>基礎解説・少数精鋭型</b></td><td>「作り方」「テンプレート」など実務の入口テーマに集中。記事の質は高いが、依頼先を探す読者の目に触れていない</td></tr>
+<tr><td>A社</td><td><b>網羅＋比較の刈り取り型</b></td><td>全テーマで上位。「コンサル比較」「システム比較」で比較検討層を集め、更新率72%で順位を維持</td></tr>
+<tr><td>B社</td><td><b>研修・運用の実務型</b></td><td>「評価者研修」で最大の流入。研修サービスへの導線と記事テーマが一致している</td></tr>
+<tr><td>C社</td><td><b>目標管理の特化型</b></td><td>OKR・目標管理で御社を上回る。他テーマは薄い</td></tr>
+</tbody></table></div>
+
+<h1 class="sec"><span class="no">03</span>御社記事の成績<span class="en">YOUR ARTICLES</span></h1>
+<h2>3.1 記事の状態（全85本）</h2>
+<div class="two">
+<div class="box"><h4>検索での表示状況</h4>
+<div class="h"><span>10位以内のKWあり</span><span class="t"><i class="dk" style="width:36%"></i></span><span class="n">31本</span></div>
+<div class="h"><span>11〜50位のみ</span><span class="t"><i class="am" style="width:31%"></i></span><span class="n">26本</span></div>
+<div class="h"><span>50位以内なし</span><span class="t"><i class="rd" style="width:33%"></i></span><span class="n">28本</span></div>
+<p style="font-size:8.2pt;margin:7px 0 0;">流入のほぼすべてを<b>31本</b>が生んでいます。</p></div>
+<div class="box"><h4>記事の作り（同業平均との比較）</h4>
+<div class="h"><span>表を含む記事</span><span class="t"><i style="width:22%"></i></span><span class="n">22%</span></div>
+<div class="h"><span>　同業3社平均</span><span class="t"><i class="lt" style="width:50%"></i></span><span class="n">50%</span></div>
+<div class="h"><span>FAQ構造化データ</span><span class="t"><i class="rd" style="width:1%"></i></span><span class="n">0%</span></div>
+<div class="h"><span>　同業3社平均</span><span class="t"><i class="lt" style="width:12%"></i></span><span class="n">12%</span></div>
+<p style="font-size:8.2pt;margin:7px 0 0;">FAQ構造化はB社のみ（35%）。<b>AI検索での引用機会</b>に関わる項目です。</p></div>
+</div>
+
+<h2>3.2 流入の多い記事 TOP5</h2>
+<div class="scroll"><table><thead><tr><th class="c" style="width:5%">#</th><th style="width:40%">記事（タイトル要約）</th><th>主なキーワード</th><th class="n">順位</th><th class="n">推定セッション</th></tr></thead><tbody>
+<tr><td class="c">1</td><td>人事評価制度の作り方7ステップ｜中小企業向け</td><td>人事評価制度 作り方</td><td class="n">2</td><td class="n">620</td></tr>
+<tr><td class="c">2</td><td>人事評価シートのテンプレート（無料DL付き）</td><td>評価シート テンプレート</td><td class="n">4</td><td class="n">410</td></tr>
+<tr><td class="c">3</td><td>人事評価の項目例30選｜職種別</td><td>人事評価 項目</td><td class="n">5</td><td class="n">330</td></tr>
+<tr><td class="c">4</td><td>中小企業の人事評価制度｜失敗しない導入手順</td><td>中小企業 人事評価制度</td><td class="n">3</td><td class="n">280</td></tr>
+<tr><td class="c">5</td><td>MBO（目標管理制度）とは</td><td>MBO とは</td><td class="n">8</td><td class="n">220</td></tr>
+<tr class="hl"><td></td><td colspan="3">TOP5 合計（全体の58%）</td><td class="n">1,860</td></tr>
+</tbody></table></div>
+
+<h1 class="sec"><span class="no">04</span>伸びしろ<span class="en">OPPORTUNITIES</span></h1>
+<p class="lead">伸びしろを「すでにある記事で取れるもの」と「新しく取りにいくもの」に分けました。前者の方が早く、確実です。</p>
+<h2>4.1 あと一歩のキーワード（11〜20位・検索数の多い順）</h2>
+<div class="scroll"><table><thead><tr><th style="width:30%">キーワード</th><th class="n">検索数／月</th><th class="n">現在の順位</th><th>該当記事</th><th class="n">5位になった場合</th></tr></thead><tbody>
+<tr><td><b>コンピテンシー評価</b></td><td class="n">2,400</td><td class="n">19</td><td>人事評価の項目例30選</td><td class="n ok">＋約140</td></tr>
+<tr><td><b>評価面談 進め方</b></td><td class="n">1,600</td><td class="n">13</td><td>評価面談の進め方</td><td class="n ok">＋約95</td></tr>
+<tr><td><b>評価者研修</b></td><td class="n">1,300</td><td class="n">12</td><td>評価者のよくある失敗</td><td class="n ok">＋約75</td></tr>
+<tr><td><b>等級制度 作り方</b></td><td class="n">1,000</td><td class="n">16</td><td>等級制度とは</td><td class="n ok">＋約60</td></tr>
+<tr><td><b>人事評価 不満</b></td><td class="n">880</td><td class="n">18</td><td>評価制度に不満が出る原因</td><td class="n ok">＋約50</td></tr>
+<tr class="hl"><td>61語の合計</td><td class="n">—</td><td class="n">—</td><td>36記事に分散</td><td class="n">＋1,100〜1,600</td></tr>
+</tbody></table></div>
+<p class="note">5位のクリック率を約6%として算出。全61語の一覧はご相談時にお渡しします。</p>
+
+<h2>4.2 取れていないテーマ</h2>
+<div class="scroll"><table><thead><tr><th style="width:32%">テーマ</th><th class="n">同業の最大値</th><th class="n">御社</th><th class="n">差</th><th>検索意図</th></tr></thead><tbody>
+<tr><td><b>人事評価コンサルの比較・費用</b></td><td class="n">3,600（A社）</td><td class="n ng">0</td><td class="n">約3,600</td><td><span class="tag t-eq">比較検討</span></td></tr>
+<tr><td><b>等級制度・賃金制度</b></td><td class="n">2,900（A社）</td><td class="n">300</td><td class="n">約2,600</td><td><span class="tag t-win">知りたい</span></td></tr>
+<tr><td><b>目標管理・OKR</b></td><td class="n">2,800（A社）</td><td class="n">450</td><td class="n">約2,350</td><td><span class="tag t-win">知りたい</span></td></tr>
+<tr><td><b>人事評価システムの比較</b></td><td class="n">1,900（A社）</td><td class="n ng">0</td><td class="n">約1,900</td><td><span class="tag t-eq">比較検討</span></td></tr>
+<tr><td><b>評価者研修・フィードバック</b></td><td class="n">1,800（B社）</td><td class="n">150</td><td class="n">約1,650</td><td><span class="tag t-eq">比較検討</span></td></tr>
+</tbody></table></div>
+
+<h2>4.3 運用面</h2>
+<div class="scroll"><table><thead><tr><th style="width:26%">項目</th><th class="n">御社</th><th class="n">同業で最も進んだ社</th><th class="c">判定</th><th>読み取り</th></tr></thead><tbody>
+<tr><td>12ヶ月内の更新率</td><td class="n ng">9%</td><td class="n">72%（A社）</td><td class="c"><span class="tag t-lose">劣位</span></td><td>順位を維持する力の差。<b>2024年以前の記事の順位が下がり始めている</b></td></tr>
+<tr><td>検索に出ていない記事</td><td class="n ng">28本</td><td class="n">—</td><td class="c"><span class="tag t-lose">要整理</span></td><td>評価シート関連で5本がテーマ重複。<b>統合で1本に評価を集められる</b>可能性</td></tr>
+<tr><td>表を含む記事</td><td class="n">22%</td><td class="n">68%（A社）</td><td class="c"><span class="tag t-eq">伸びしろ</span></td><td>判断基準・比較を表で示す記事が少ない</td></tr>
+<tr><td>FAQ構造化データ</td><td class="n">0%</td><td class="n">35%（B社）</td><td class="c"><span class="tag t-eq">伸びしろ</span></td><td>A社も未実装。<b>先に取れば差がつく</b>数少ない項目</td></tr>
+</tbody></table></div>
+
+<h1 class="sec"><span class="no">05</span>改善の方向性<span class="en">DIRECTION</span></h1>
+<p class="lead">効果の早さと大きさから、取り組む順番をご提案します。記事単位の具体的な指示は、ご相談時にお渡しします。</p>
+<table><thead><tr><th class="c" style="width:7%">順番</th><th style="width:28%">方向性</th><th>理由</th><th class="n" style="width:15%">見込み</th></tr></thead><tbody>
+<tr><td class="c"><b>1</b></td><td><b>検索に出ていない28本を整理する</b></td><td>重複テーマの統合と、評価が付かない記事の方向転換。<b>新しく書かずに、今ある資産の効率を上げる</b></td><td class="n">数ヶ月で効果</td></tr>
+<tr><td class="c"><b>2</b></td><td><b>「あと一歩」の61語を押し上げる</b></td><td>既存記事への加筆・表の追加・内部リンク。検索数の多い15語から着手</td><td class="n">＋1,100〜1,600</td></tr>
+<tr><td class="c"><b>3</b></td><td><b>比較検討テーマの入口を作る</b></td><td>「人事評価コンサルの選び方」「費用相場」「評価者研修」。<b>問い合わせに最も近い検索で、御社が1本も出ていない</b>領域</td><td class="n">最大 ＋7,000</td></tr>
+</tbody></table>
+<div class="callout"><b>新規記事の前に、既存記事。</b>御社の記事は1記事あたりの流入で同業と遜色なく、<b>書く力の問題ではありません</b>。
+「どのテーマに置くか」と「書いた記事を育て続けるか」の2点を変えるだけで、同じ記事数でも流入は大きく変わります。</div>
+
+<h1 class="sec"><span class="no">06</span>次のステップ<span class="en">NEXT STEP</span></h1>
+<div class="cta"><h4>30分のご相談でお渡しするもの</h4>
+<ol>
+<li><b>Search Console 連携の精密版</b>：推定値ではなく実測の表示回数・クリック数で、本レポートを更新します</li>
+<li><b>記事ごとの改善シート</b>：28本の整理案（統合・リライト・削除）と、61語の押し上げ手順</li>
+<li><b>比較検討テーマの記事案3本</b>：主張と構成の骨子つき。AIメディアくんで1本を実際に生成してご覧いただきます</li>
+</ol>
+<p style="margin:8px 0 0;">担当者より、2営業日以内にご連絡いたします。</p></div>
+
+<h1 class="sec"><span class="no">07</span>調査方法と前提<span class="en">METHOD</span></h1>
+<table><thead><tr><th style="width:22%">項目</th><th>内容</th></tr></thead><tbody>
+<tr><td>対象</td><td>sample-hr.co.jp/column/ 配下の全85本（sitemap.xmlより取得）と、比較3社のメディア</td></tr>
+<tr><td>比較対象の選定</td><td>御社と上位表示キーワードが重なるドメインのうち、<b>事業が近く、記事で集客している3社</b>。大手ポータル・ニュースサイトは除外</td></tr>
+<tr><td>検索データ</td><td>サードパーティの検索データ（Google 日本・日本語、2026年10月1日時点）。キーワードごとの検索数・順位を取得</td></tr>
+<tr><td>推定セッション</td><td>検索数 × 順位別クリック率（1位35%、2位19%、3位12%、10位1.5%）の合計。<b>実測値とは差があり</b>、比較の目安としてご覧ください</td></tr>
+<tr><td>記事の構造</td><td>各記事のHTMLから、表の有無・構造化データ・更新日などの構造情報のみを抽出。robots.txtを遵守し、本文は保存していません</td></tr>
+<tr><td>テーマ分類</td><td>4社の全キーワードをAIで意味的に分類し、共通のテーマ軸と検索意図を付与</td></tr>
+</tbody></table>
+<div class="note">本レポートは公開情報と検索データに基づく推定であり、各社の実際のアクセス数を示すものではありません。
+比較対象企業の評価を目的としたものではなく、社名は識別のために記載しています。</div>
+</div>
+</body></html>

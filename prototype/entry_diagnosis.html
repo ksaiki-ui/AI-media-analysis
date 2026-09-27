@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>無料参入診断レポート</title><style>/* MIRAIKU メディア診断レポート 共通スタイル（Pro-D-use 競合分析レポートの体系を踏襲） */
+:root{--pg:#0F5C3F;--dg:#0A3F2B;--lg:#E8F4ED;--ag:#3CAA5C;--tx:#1A1A1A;--gy:#4A4A4A;
+ --lt:#6B6B6B;--bd:#E5E7EB;--pp:#fff;--nb:#FDF6F2;--nt:#B85042;--wb:#FBF8EE;--wt:#8A6A2F;
+ --g0:#F4F8F5;--g1:#D8EDDF;--g2:#A6D6B4;--g3:#5FB57A;--g4:#1F7A4D;}
+*{margin:0;padding:0;box-sizing:border-box;}
+@page{size:A4;margin:14mm 13mm 16mm 13mm;}
+body{font-family:'Noto Sans CJK JP','Noto Sans JP','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',sans-serif;
+ color:var(--tx);background:var(--pp);font-size:9.6pt;line-height:1.72;-webkit-font-smoothing:antialiased;font-feature-settings:"palt";}
+.sample{background:var(--wb);color:var(--wt);text-align:center;font-size:8.5pt;padding:6px 12px;}
+@media print{.sample{display:none;}}
+.page{max-width:188mm;margin:0 auto;padding:0 6mm 22mm;}
+p{margin:0 0 7px 0;}
+strong{color:var(--pg);}
+.cover{min-height:250mm;background:linear-gradient(135deg,#0F5C3F 0%,#0A3F2B 100%);color:#fff;
+ display:flex;flex-direction:column;justify-content:space-between;padding:22mm 18mm;page-break-after:always;}
+.cover-label{letter-spacing:4px;font-size:9.5pt;opacity:.7;font-weight:500;}
+.cover-tagline{font-size:12pt;font-weight:300;margin-bottom:12px;opacity:.9;}
+.cover-title{font-size:23pt;font-weight:900;line-height:1.42;margin-bottom:16px;}
+.cover-sub{font-size:11pt;border-top:1px solid rgba(255,255,255,.35);padding-top:13px;opacity:.92;line-height:1.85;}
+.cover-bot{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;}
+.cover-meta{font-size:9pt;line-height:2;}
+.cover-meta .lbl{opacity:.6;letter-spacing:2px;font-size:7.5pt;display:block;}
+.wm{font-size:14pt;font-weight:900;letter-spacing:5px;}
+.conf{display:inline-block;border:1px solid rgba(255,255,255,.5);padding:2px 11px;font-size:8pt;letter-spacing:2px;margin-top:9px;}
+h1.sec{page-break-before:always;background:linear-gradient(135deg,#0F5C3F 0%,#0A3F2B 100%);color:#fff;
+ font-size:14.5pt;font-weight:700;padding:12px 19px;border-radius:4px;margin:30px 0 4px;}
+h1.sec:first-of-type{page-break-before:avoid;}
+h1.sec .no{opacity:.55;font-weight:900;margin-right:11px;}
+h1.sec .en{display:block;font-size:7.5pt;font-weight:400;opacity:.65;letter-spacing:1.5px;margin-top:1px;}
+.lead{color:var(--gy);font-size:9.2pt;margin:8px 2px 13px;}
+h2{color:var(--pg);font-size:11.5pt;font-weight:700;margin:20px 0 7px;padding-bottom:5px;border-bottom:2px solid var(--lg);}
+h3{font-size:10pt;font-weight:700;margin:14px 0 5px;color:var(--dg);}
+.scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;margin:9px 0 12px;font-size:8.5pt;page-break-inside:avoid;}
+th{background:var(--dg);color:#fff;font-weight:700;padding:6px 8px;text-align:left;border:1px solid var(--dg);font-size:8.2pt;}
+td{padding:5px 8px;border:1px solid var(--bd);vertical-align:top;line-height:1.62;}
+tbody tr:nth-child(even){background:#FAFBFA;}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+td.c,th.c{text-align:center;}
+.hl{background:var(--lg)!important;font-weight:700;}
+.callout{background:var(--lg);border-left:4px solid var(--pg);padding:10px 14px;margin:11px 0;font-size:9.2pt;border-radius:0 4px 4px 0;}
+.warn{background:var(--wb);border-left:4px solid #C9A227;padding:10px 14px;margin:11px 0;font-size:9.2pt;border-radius:0 4px 4px 0;}
+.warn b{color:var(--wt);}
+.danger{background:var(--nb);border-left:4px solid #D88A6A;padding:10px 14px;margin:11px 0;font-size:9.2pt;border-radius:0 4px 4px 0;}
+.danger b{color:var(--nt);}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:11px 0 14px;}
+.kpi .i{border:1px solid var(--bd);border-top:3px solid var(--pg);border-radius:3px;padding:9px 11px;}
+.kpi .l{font-size:7.6pt;color:var(--lt);}
+.kpi .v{font-size:15.5pt;font-weight:900;color:var(--dg);line-height:1.2;font-variant-numeric:tabular-nums;}
+.kpi .v small{font-size:8.5pt;font-weight:700;}
+.kpi .d{font-size:7.4pt;color:var(--lt);margin-top:2px;line-height:1.5;}
+.note{font-size:8pt;color:var(--lt);line-height:1.65;margin:5px 0 10px;}
+ul,ol{margin:5px 0 9px 18px;}li{margin-bottom:3px;}
+.ok{color:var(--pg);font-weight:700;} .ng{color:var(--nt);font-weight:700;} .mid{color:var(--wt);font-weight:700;}
+.h{display:grid;grid-template-columns:128px 1fr 64px;gap:9px;align-items:center;font-size:8.4pt;margin:3px 0;}
+.h .t{height:15px;background:#EDF1EE;border-radius:3px;overflow:hidden;display:flex;}
+.h .t i{display:block;height:100%;background:var(--ag);}
+.h .t i.dk{background:var(--dg);} .h .t i.rd{background:#C4695C;} .h .t i.am{background:#D3AC4E;} .h .t i.lt{background:var(--g2);}
+.h .n{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.box{border:1px solid var(--bd);border-radius:5px;padding:11px 13px;background:#FAFBFA;}
+.box h4{margin:0 0 6px;font-size:9.2pt;color:var(--dg);}
+.box.me{border-color:var(--pg);background:var(--lg);}
+.tag{display:inline-block;border-radius:3px;padding:0 7px;font-size:7.6pt;font-weight:700;margin:1px 3px 1px 0;white-space:nowrap;}
+.t-win{background:var(--lg);color:var(--pg);} .t-lose{background:var(--nb);color:var(--nt);} .t-eq{background:var(--wb);color:var(--wt);}
+.term{display:inline-block;background:#F1F5F2;border:1px solid #DDE6E0;border-radius:11px;padding:1px 9px;font-size:8pt;margin:2px 3px 2px 0;}
+/* ヒートマップ（推定セッション） */
+table.heat td.v{text-align:center;font-variant-numeric:tabular-nums;font-weight:700;}
+.v0{background:var(--g0)!important;color:#9AA59E;} .v1{background:var(--g1)!important;} .v2{background:var(--g2)!important;}
+.v3{background:var(--g3)!important;color:#fff;} .v4{background:var(--g4)!important;color:#fff;}
+.legend{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:7.6pt;color:var(--lt);margin:-4px 0 10px;}
+.legend span{width:20px;height:10px;display:inline-block;border-radius:2px;}
+/* 凡例ドット */
+.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 4px 0 8px;vertical-align:middle;}
+/* ロードマップ */
+.wave{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 12px;}
+.wave .w{border:1px solid var(--bd);border-radius:5px;overflow:hidden;}
+.wave .w .hd{background:var(--dg);color:#fff;padding:7px 11px;font-weight:700;font-size:9pt;}
+.wave .w .hd small{display:block;font-weight:400;opacity:.75;font-size:7.6pt;}
+.wave .w.first .hd{background:var(--ag);}
+.wave .w .bd{padding:9px 11px;font-size:8.4pt;}
+.cta{border:2px solid var(--pg);border-radius:6px;padding:14px 16px;margin:14px 0;}
+.cta h4{color:var(--pg);font-size:10.5pt;margin-bottom:6px;}
+@media(max-width:820px){
+ .two,.wave{grid-template-columns:1fr;} .kpi{grid-template-columns:1fr 1fr;}
+ .cover{padding:14mm 8mm;min-height:auto;gap:28px;} .cover-title{font-size:19pt;}
+ .page{padding:0 16px 22mm;} .h{grid-template-columns:96px 1fr 54px;}
+}
+</style></head><body>
+<div class="sample">サンプル：社名・ドメイン・数値はすべてダミーです（レポート構成の確認用）</div>
+<div class="cover">
+ <div><div class="cover-label">M A R K E T &nbsp;E N T R Y &nbsp;D I A G N O S I S</div><div class="conf">FREE REPORT</div></div>
+ <div><div class="cover-tagline">オウンドメディア 参入診断</div>
+ <div class="cover-title">株式会社サンプルロジ 様<br>コンテンツマーケティング<br>参入診断レポート</div>
+ <div class="cover-sub">同業3社がオウンドメディアから得ている流入と問い合わせの規模を推定し、<br>
+ 御社が始めるなら「どのテーマの、どのキーワードから入るべきか」をご提示します。</div></div>
+ <div class="cover-bot"><div class="cover-meta"><span class="lbl">TARGET</span>sample-logi.co.jp（コーポレートサイト）<br>
+ <span class="lbl">BENCHMARK</span>A社 alpha-logi.jp/column/ ・ B社 beta-souko.co.jp/media/ ・ C社 gamma-ec.jp/blog/<br>
+ <span class="lbl">DATE</span>2026年10月1日 取得・分析</div>
+ <div><div class="wm">MIRAIKU</div><div style="font-size:8pt;opacity:.75;">AIメディアくん｜株式会社MIRAIKU</div></div></div>
+</div>
+
+<div class="page">
+<h1 class="sec"><span class="no">00</span>エグゼクティブサマリ<span class="en">SUMMARY</span></h1>
+<div class="callout"><b>結論：同業3社は、記事だけで月3.6万セッションを集めています。</b>
+広告で同じ流入を買うと<b>月約615万円</b>、問い合わせに換算すると<b>月35〜108件</b>に相当します。
+一方で、3社とも<b>「食品・冷凍の物流」と「物流2024年問題」はほぼ手つかず</b>です。
+御社の冷凍・定温の取扱い実績を活かせる<b>「食品・冷凍物流」テーマの8キーワード</b>から始めることをおすすめします。</div>
+<div class="kpi">
+<div class="i"><div class="l">同業3社の推定月間セッション</div><div class="v">3.6<small>万</small></div><div class="d">A社1.8万・B社1.1万・C社0.6万</div></div>
+<div class="i"><div class="l">広告換算額（3社合計）</div><div class="v">615<small>万円/月</small></div><div class="d">同じ流入を検索広告で買った場合</div></div>
+<div class="i"><div class="l">問い合わせ換算（3社合計）</div><div class="v">35〜108<small>件/月</small></div><div class="d">CVR 0.1〜0.3% を仮定</div></div>
+<div class="i"><div class="l">御社の記事からの流入</div><div class="v ng">0<small>件</small></div><div class="d">オウンドメディア未開設</div></div>
+</div>
+<h2>この診断で分かった5つのこと</h2>
+<table><thead><tr><th class="c" style="width:5%">#</th><th style="width:31%">発見</th><th>意味</th></tr></thead><tbody>
+<tr><td class="c"><b>1</b></td><td><b>同業はすでに記事で集客している</b></td><td>3社で計402本の記事を持ち、推定月3.6万セッションを獲得。<b>最大のA社は1社で月約310万円分の広告費に相当</b>する流入を得ている</td></tr>
+<tr><td class="c"><b>2</b></td><td><b>成果が出るまで14〜24ヶ月かかっている</b></td><td>3社とも、メディア開始から月5,000セッションに届くまでに14〜24ヶ月。<b>始める時期が遅いほど差が開く</b>構造</td></tr>
+<tr><td class="c"><b>3</b></td><td><b>主戦場は「物流代行の選び方」と「費用相場」</b></td><td>問い合わせに近い2テーマでA社・B社が上位を占める。<b>ここに正面から入るのは最後</b>にすべき</td></tr>
+<tr><td class="c"><b>4</b></td><td><b>「食品・冷凍の物流」は3社とも空白</b></td><td>関連する検索需要は月9,500回あるのに、3社の記事は1本も上位にない。<b>御社の取扱い実績がそのまま一次情報になる</b></td></tr>
+<tr><td class="c"><b>5</b></td><td><b>御社サイトは“ゼロ”からではない</b></td><td>コーポレートサイトが指名以外で6語ランクイン、被リンク元38ドメイン。<b>難易度の低いキーワードなら初月から上位を狙える</b>土台がある</td></tr>
+</tbody></table>
+
+<h1 class="sec"><span class="no">01</span>同業は記事から何を得ているか<span class="en">BENCHMARK</span></h1>
+<p class="lead">同業3社のメディアを、推定流入・広告換算額・問い合わせ換算で比べます。「記事をやると何が得られるのか」の実例です。</p>
+<div class="scroll"><table><thead><tr><th style="width:20%">メディア</th><th class="n">記事数</th><th class="n">開始</th><th class="n">推定月間セッション</th><th class="n">広告換算額／月</th><th class="n">問い合わせ換算／月</th></tr></thead><tbody>
+<tr><td><b>A社</b> alpha-logi.jp/column/</td><td class="n">186本</td><td class="n">2021年</td><td class="n"><b>約18,400</b></td><td class="n">約310万円</td><td class="n">18〜55件</td></tr>
+<tr><td><b>B社</b> beta-souko.co.jp/media/</td><td class="n">124本</td><td class="n">2022年</td><td class="n"><b>約11,200</b></td><td class="n">約210万円</td><td class="n">11〜34件</td></tr>
+<tr><td><b>C社</b> gamma-ec.jp/blog/</td><td class="n">92本</td><td class="n">2023年</td><td class="n"><b>約6,300</b></td><td class="n">約95万円</td><td class="n">6〜19件</td></tr>
+<tr class="hl"><td>3社合計</td><td class="n">402本</td><td class="n">—</td><td class="n">約35,900</td><td class="n">約615万円</td><td class="n">35〜108件</td></tr>
+<tr><td><b>御社</b> sample-logi.co.jp</td><td class="n ng">0本</td><td class="n">—</td><td class="n ng">0</td><td class="n ng">0円</td><td class="n ng">0件</td></tr>
+</tbody></table></div>
+<div class="warn"><b>数字の読み方。</b>推定セッションは「検索回数×順位別クリック率」で算出しており、実際のアクセス数とは差があります。
+<b>広告換算額</b>は、同じクリック数を検索広告で買った場合の費用（キーワードごとのクリック単価×推定クリック数）。
+<b>問い合わせ換算</b>は、BtoBメディアの問い合わせ率を0.1〜0.3%と<b>仮定</b>した目安で、実績値ではありません。</div>
+
+<h2>1.1 どのくらいの期間で成果が出たか</h2>
+<p>各社の記事の公開ペースと、推定流入の推移（検索データの履歴）を並べました。</p>
+<div class="two">
+<div class="box"><h4>記事の公開本数（年別・3社合計）</h4>
+<div class="h"><span>2021年</span><span class="t"><i style="width:10%"></i></span><span class="n">12</span></div>
+<div class="h"><span>2022年</span><span class="t"><i style="width:38%"></i></span><span class="n">48</span></div>
+<div class="h"><span>2023年</span><span class="t"><i style="width:86%"></i></span><span class="n">108</span></div>
+<div class="h"><span>2024年</span><span class="t"><i class="dk" style="width:100%"></i></span><span class="n">126</span></div>
+<div class="h"><span>2025年</span><span class="t"><i style="width:65%"></i></span><span class="n">82</span></div>
+<div class="h"><span>2026年（9月まで）</span><span class="t"><i style="width:21%"></i></span><span class="n">26</span></div>
+<p style="font-size:8.2pt;margin:7px 0 0;">2023〜2024年に<b>3社が一斉に投下</b>しています。</p></div>
+<div class="box"><h4>開始から月5,000セッション到達まで</h4>
+<div class="h"><span>A社（186本）</span><span class="t"><i class="dk" style="width:100%"></i></span><span class="n">24ヶ月</span></div>
+<div class="h"><span>C社（92本）</span><span class="t"><i style="width:83%"></i></span><span class="n">20ヶ月</span></div>
+<div class="h"><span>B社（124本）</span><span class="t"><i style="width:58%"></i></span><span class="n">14ヶ月</span></div>
+<p style="font-size:8.2pt;margin:7px 0 0;">最も早いB社でも<b>14ヶ月</b>。到達時点の記事数は各社60〜80本でした。</p></div>
+</div>
+<div class="callout"><b>記事は「積み上げ型」の資産です。</b>広告は止めればゼロに戻りますが、記事は上位にいる限り流入を生み続けます。
+その代わり、<b>成果が出るまでに1年以上かかる</b>のがこれまでの常識でした。
+御社がこれから始める場合、競合が手薄な領域から入ることで、この期間を縮められる可能性があります（→ 04章）。</div>
+
+<h1 class="sec"><span class="no">02</span>テーマ地図 ── 誰が、どこで集客しているか<span class="en">THEME MAP</span></h1>
+<p class="lead">3社がランクインしているキーワードと、周辺の検索需要をテーマ（キーワードのまとまり）ごとに整理しました。
+数値は各社の推定月間セッションです。</p>
+<div class="scroll"><table class="heat"><thead><tr><th style="width:30%">テーマ</th><th class="c">検索需要／月</th><th class="c">A社</th><th class="c">B社</th><th class="c">C社</th><th class="c">判定</th></tr></thead><tbody>
+<tr><td><b>物流代行の選び方・比較</b><br><span class="note">比較検討</span></td><td class="n">42,000</td><td class="v v4">4,800</td><td class="v v3">2,600</td><td class="v v1">900</td><td class="c"><span class="tag t-lose">激戦</span></td></tr>
+<tr><td><b>物流アウトソーシングの費用相場</b><br><span class="note">比較検討</span></td><td class="n">18,000</td><td class="v v3">2,900</td><td class="v v2">1,800</td><td class="v v1">300</td><td class="c"><span class="tag t-lose">激戦</span></td></tr>
+<tr><td><b>EC物流・発送代行</b><br><span class="note">比較検討</span></td><td class="n">26,000</td><td class="v v2">1,600</td><td class="v v1">700</td><td class="v v3">2,900</td><td class="c"><span class="tag t-lose">激戦</span></td></tr>
+<tr><td><b>倉庫管理・WMS</b><br><span class="note">知りたい</span></td><td class="n">31,000</td><td class="v v3">2,400</td><td class="v v2">1,900</td><td class="v v1">200</td><td class="c"><span class="tag t-eq">競合あり</span></td></tr>
+<tr><td><b>在庫管理の方法</b><br><span class="note">知りたい</span></td><td class="n">38,000</td><td class="v v3">3,100</td><td class="v v2">1,200</td><td class="v v1">800</td><td class="c"><span class="tag t-eq">競合あり</span></td></tr>
+<tr><td><b>物流コスト削減</b><br><span class="note">知りたい</span></td><td class="n">14,000</td><td class="v v2">1,500</td><td class="v v2">1,400</td><td class="v v1">300</td><td class="c"><span class="tag t-eq">競合あり</span></td></tr>
+<tr><td><b>3PL・物流用語</b><br><span class="note">知りたい</span></td><td class="n">16,000</td><td class="v v2">1,700</td><td class="v v1">900</td><td class="v v1">500</td><td class="c"><span class="tag t-eq">競合あり</span></td></tr>
+<tr class="hl"><td><b>物流2024年問題・法規制</b><br><span class="note">知りたい</span></td><td class="n">22,000</td><td class="v v1">400</td><td class="v v1">700</td><td class="v v1">400</td><td class="c"><span class="tag t-win">手薄</span></td></tr>
+<tr class="hl"><td><b>食品・冷凍の物流</b><br><span class="note">比較検討／今すぐ依頼</span></td><td class="n">9,500</td><td class="v v0">0</td><td class="v v0">0</td><td class="v v0">0</td><td class="c"><span class="tag t-win">空白</span></td></tr>
+</tbody></table></div>
+<div class="legend">推定月間セッション <span class="v0"></span>0 <span class="v1"></span>〜1,000 <span class="v2"></span>〜2,000 <span class="v3"></span>〜4,000 <span class="v4"></span>4,000〜</div>
+<div class="callout"><b>2つの空き地があります。</b>
+①<b>物流2024年問題</b>は検索需要が月2.2万回あるのに、3社合計で1,500セッションしか取れていません。上位は行政・ニュースサイトが中心で、<b>実務に踏み込んだ記事が少ない</b>状態です。
+②<b>食品・冷凍の物流</b>は3社とも記事がありません。需要は月9,500回と小さいものの、<b>「委託先を探している」検索が多く、問い合わせに直結しやすい</b>テーマです。</div>
+
+<h1 class="sec"><span class="no">03</span>御社の現在地<span class="en">STARTING POINT</span></h1>
+<p class="lead">記事を始める前の「土台」を確認します。ドメインの強さによって、最初に狙えるキーワードの難易度が変わります。</p>
+<div class="scroll"><table><thead><tr><th style="width:22%">指標</th><th class="n" style="width:9%">御社</th><th class="n" style="width:9%">A社</th><th class="n" style="width:9%">B社</th><th class="n" style="width:9%">C社</th><th>読み取り</th></tr></thead><tbody>
+<tr><td>被リンク元ドメイン数</td><td class="n"><b>38</b></td><td class="n">420</td><td class="n">260</td><td class="n">150</td><td>A社の約1/11。<b>難易度の高いキーワードはまだ取れない</b></td></tr>
+<tr><td>ランクインKW（指名除く・20位以内）</td><td class="n"><b>6</b></td><td class="n">1,180</td><td class="n">730</td><td class="n">410</td><td>サービスページが「冷凍倉庫 大阪」などで上位。<b>地域×冷凍の文脈は既に評価されている</b></td></tr>
+</tbody></table></div>
+<div class="box me"><h4>御社サイトから読み取れる「一次情報の源泉」</h4>
+<span class="term">冷凍・冷蔵・定温の3温度帯対応</span><span class="term">食品メーカーとの取引実績</span><span class="term">HACCP対応倉庫</span><span class="term">関西圏の拠点網</span>
+<p style="font-size:8.2pt;margin:7px 0 0;">いずれも<b>比較3社のサイトには見当たらない</b>情報です。04章のキーワード選定は、この情報で書けるかどうかを重視しています。</p></div>
+<div class="warn"><b>正面からは入れません。</b>A社・B社が上位を占める「物流代行 比較」「物流アウトソーシング 費用」は、キーワード難易度50〜60台。
+被リンク元38ドメインのサイトが新しく記事を出しても、<b>1年以上上位に届かない可能性が高い</b>領域です。
+だからこそ、最初の3ヶ月は<b>難易度が低く、御社にしか書けないテーマ</b>で実績を積みます。</div>
+
+<h1 class="sec"><span class="no">04</span>最初に狙うべきキーワード<span class="en">START HERE</span></h1>
+<p class="lead">「検索需要」「競合の手薄さ」「難易度（御社のドメインで勝てるか）」「御社の一次情報との一致」の4つで全キーワードを採点し、
+最初の3ヶ月で書くべき8本を選びました。</p>
+<h2>4.1 推奨スタートテーマ：食品・冷凍の物流</h2>
+<div class="scroll"><table><thead><tr><th class="c" style="width:5%">#</th><th style="width:28%">キーワード</th><th class="n">検索数／月</th><th class="n">難易度</th><th>検索意図</th><th>現在の上位</th><th>選定理由</th></tr></thead><tbody>
+<tr><td class="c">1</td><td><b>冷凍食品 物流 委託</b></td><td class="n">590</td><td class="n ok">12</td><td><span class="tag t-lose">今すぐ依頼</span></td><td>中小物流会社のサービスページ</td><td>記事での回答が上位にない。<b>問い合わせに最も近い</b></td></tr>
+<tr><td class="c">2</td><td><b>食品 物流代行</b></td><td class="n">880</td><td class="n ok">18</td><td><span class="tag t-eq">比較検討</span></td><td>ポータルサイト1件＋会社ページ</td><td>比較記事がない。取扱い実績を表で示せる</td></tr>
+<tr><td class="c">3</td><td><b>冷凍倉庫 保管料 相場</b></td><td class="n">720</td><td class="n ok">15</td><td><span class="tag t-eq">比較検討</span></td><td>Q&amp;Aサイト・個人ブログ</td><td><b>料金表を持つ御社が最も正確に書ける</b></td></tr>
+<tr><td class="c">4</td><td><b>定温物流 とは</b></td><td class="n">1,300</td><td class="n ok">20</td><td><span class="tag t-win">知りたい</span></td><td>用語集サイト</td><td>3温度帯の実務を解説できる。テーマの入口記事に</td></tr>
+<tr><td class="c">5</td><td><b>食品EC 冷凍 発送代行</b></td><td class="n">480</td><td class="n ok">10</td><td><span class="tag t-eq">比較検討</span></td><td>C社の一般的なEC物流記事（14位）</td><td>C社が隣接領域にいるが、冷凍に特化した記事はない</td></tr>
+<tr><td class="c">6</td><td><b>物流2024年問題 食品</b></td><td class="n">1,600</td><td class="n ok">22</td><td><span class="tag t-win">知りたい</span></td><td>業界団体・ニュースサイト</td><td>2つの空き地の交点。<b>荷主向けの実務対応</b>で差別化</td></tr>
+<tr><td class="c">7</td><td><b>冷凍 在庫管理 方法</b></td><td class="n">390</td><td class="n ok">8</td><td><span class="tag t-win">知りたい</span></td><td>個人ブログ・Q&amp;Aサイト</td><td>難易度が最も低い。<b>初月の上位化が狙える</b></td></tr>
+<tr><td class="c">8</td><td><b>HACCP 倉庫 対応</b></td><td class="n">1,000</td><td class="n ok">25</td><td><span class="tag t-win">知りたい</span></td><td>行政・認証機関</td><td>HACCP対応倉庫を運用する事業者の視点で書ける</td></tr>
+<tr class="hl"><td></td><td>8本合計</td><td class="n">6,960</td><td class="n">平均16</td><td colspan="3">すべて5位以内に入った場合の推定：<b>月420〜900セッション</b>（うち約4割が比較検討・依頼の検索）</td></tr>
+</tbody></table></div>
+<p class="note">難易度は0〜100（上位ページの被リンク強度から算出）。御社の現在のドメイン強度で上位化が見込める目安は30以下です。</p>
+
+<h2>4.2 いまは狙わないキーワード</h2>
+<table><thead><tr><th style="width:28%">キーワード</th><th class="n">検索数／月</th><th class="n">難易度</th><th>理由</th><th style="width:12%">着手時期</th></tr></thead><tbody>
+<tr><td>物流アウトソーシング</td><td class="n">8,100</td><td class="n ng">58</td><td>A社が1位、B社が3位。記事の厚みで勝てても、ドメインの強さで届かない</td><td>7ヶ月目〜</td></tr>
+<tr><td>在庫管理</td><td class="n">22,000</td><td class="n ng">65</td><td>システム会社・大手メディアが上位。問い合わせにもつながりにくい</td><td>対象外</td></tr>
+<tr><td>WMS 比較</td><td class="n">3,600</td><td class="n ng">52</td><td>システム比較サイトの領域。御社の事業と一致しない</td><td>対象外</td></tr>
+</tbody></table>
+<div class="callout"><b>なぜ「小さい需要」から始めるのか。</b>
+月6,960回の需要は、競合の主戦場（月4.2万回）の1/6にすぎません。しかし<b>勝てる場所で最初の上位を取る</b>ことで、
+ドメインの評価が上がり、次の領域に進む土台ができます。競合3社が1年以上かかった立ち上がりを短くするための入り方です。</div>
+
+<h1 class="sec"><span class="no">05</span>12ヶ月の進め方<span class="en">ROADMAP</span></h1>
+<div class="wave">
+<div class="w first"><div class="hd">Wave 1：空白を取る<small>1〜3ヶ月目・約10本</small></div><div class="bd">
+「食品・冷凍の物流」の8本＋サービスページとの内部リンク整備。<br><b>目標：</b>10位以内のキーワード20語</div></div>
+<div class="w"><div class="hd">Wave 2：手薄な面を広げる<small>4〜6ヶ月目・約12本</small></div><div class="bd">
+「物流2024年問題」を荷主の実務目線で。「物流コスト削減」に冷凍・定温の事例で入る。<br><b>目標：</b>月1,500セッション</div></div>
+<div class="w"><div class="hd">Wave 3：主戦場に入る<small>7〜12ヶ月目・約15本</small></div><div class="bd">
+「物流代行の選び方」「費用相場」に正面から。<b>選定基準と料金を公開する</b>ことで比較記事と差をつける。<br><b>目標：</b>月2,000〜4,000セッション</div></div>
+</div>
+<p class="note">目標値は、競合3社の立ち上がり実績（開始14〜24ヶ月で月5,000セッション）と、上記キーワードの検索需要から置いた<b>シナリオ</b>であり、成果を保証するものではありません。</p>
+
+<h1 class="sec"><span class="no">06</span>次のステップ<span class="en">NEXT STEP</span></h1>
+<div class="cta"><h4>30分のご相談でお渡しするもの</h4>
+<ol>
+<li><b>Wave 1〜3 の全37本のキーワードリスト</b>（本レポートは最初の8本のみ掲載）</li>
+<li><b>最初の1本のサンプル記事</b>：「冷凍倉庫 保管料 相場」を、御社の料金体系を前提にAIメディアくんで実際に生成してご覧いただきます</li>
+<li><b>御社のナレッジの棚卸し</b>：サイト・資料から「記事にできる一次情報」を洗い出します</li>
+</ol>
+<p style="margin:8px 0 0;">担当者より、2営業日以内にご連絡いたします。</p></div>
+
+<h1 class="sec"><span class="no">07</span>調査方法と前提<span class="en">METHOD</span></h1>
+<table><thead><tr><th style="width:22%">項目</th><th>内容</th></tr></thead><tbody>
+<tr><td>比較対象の選定</td><td>御社サイトの事業内容と、関連キーワードの検索上位に頻出するドメインから、<b>事業が近く、かつ記事で集客している3社</b>を選定。大手ポータル・ニュースサイトは除外</td></tr>
+<tr><td>検索データ</td><td>サードパーティの検索データ（Google 日本・日本語）。キーワードごとの検索数・順位・クリック単価を取得（2026年10月1日時点）</td></tr>
+<tr><td>推定セッション</td><td>検索数 × 順位別クリック率（1位35%、2位19%、3位12%、10位1.5%）の合計。<b>実測値とは差があり</b>、各社比較の目安としてご覧ください</td></tr>
+<tr><td>広告換算額</td><td>推定クリック数 × キーワードごとの検索広告クリック単価の合計</td></tr>
+<tr><td>問い合わせ換算</td><td>推定セッション × 仮定の問い合わせ率（0.1〜0.3%）。<b>業種・導線により大きく変わる仮定値</b>です</td></tr>
+<tr><td>記事数・公開時期</td><td>各社のsitemap.xmlから取得。robots.txtを遵守し、本文は保存していません</td></tr>
+<tr><td>難易度</td><td>検索上位10ページの被リンク強度から算出（0〜100）</td></tr>
+<tr><td>テーマ分類</td><td>全キーワードをAIで意味的に分類し、テーマ名と検索意図（知りたい／比較検討／今すぐ依頼）を付与</td></tr>
+</tbody></table>
+<div class="note">本レポートは公開情報と検索データに基づく推定であり、各社の実際のアクセス数・問い合わせ数を示すものではありません。
+比較対象企業の評価を目的としたものではなく、社名は識別のために記載しています。</div>
+</div>
+</body></html>
