@@ -91,6 +91,11 @@ class Result:
     days_since_last: int | None = None
     posts_90d: int = 0
     posts_365d: int = 0
+    stale_2y: int = (
+        0  # sitemap の lastmod が 2 年以上前の記事数（リライトされていない記事）
+    )
+    old_year_titles: int = 0  # 「2024年版」のような過ぎた年号が入った記事タイトルの数
+    old_year_examples: str = ""
     contact_url: str = ""
     no_sales_notice: bool = False
     robots_blocked: bool = False
@@ -353,6 +358,47 @@ def dates_from_page(f: Fetcher, url: str) -> list[date]:
     return out
 
 
+OLD_YEAR = re.compile(
+    r"[【\[（(]\s*(20[12]\d)年(?:度)?(?:版|最新版?|最新情報)?\s*[】\]）)]"
+    r"|(20[12]\d)年(?:度)?(?:最新版?|版)(?!との|から|の改|と比)"
+)
+
+
+def old_year_titles(f: Fetcher, base: str, media_path: str) -> list[str]:
+    """メディアの一覧ページと RSS の記事タイトルから、過ぎた年号の入ったものを拾う"""
+    titles: list[str] = []
+    urls = [urljoin(base, media_path)] if media_path.startswith("/") else []
+    urls.append(
+        urljoin(base, (media_path if media_path.startswith("/") else "/") + "feed/")
+    )
+    for u in urls:
+        r = f.get(u)
+        if r is None:
+            continue
+        soup = (
+            read_xml(r)
+            if b"<rss" in r.content[:2000]
+            else BeautifulSoup(r.content, "lxml")
+        )
+        tags = (
+            soup.find_all("title")
+            if b"<rss" in r.content[:2000]
+            else soup.find_all(["a", "h2", "h3"])
+        )
+        for t in tags:
+            txt = t.get_text(" ", strip=True)
+            if 10 <= len(txt) <= 80:
+                titles.append(txt)
+    this_year = date.today().year
+    out = []
+    for t in dict.fromkeys(titles):
+        m = OLD_YEAR.search(t)
+        # 「【2024年版】」「2023年度最新」など、今年より前の年号を見出しに掲げた記事
+        if m and int(m.group(1) or m.group(2)) < this_year:
+            out.append(t)
+    return out
+
+
 def check_contact(
     f: Fetcher, base: str, home_html: BeautifulSoup | None, res: Result
 ) -> None:
@@ -445,6 +491,7 @@ def measure(row: dict) -> Result:
             if len(dates) >= 10 and top / len(dates) > 0.5:
                 res.notes.append("sitemapの日付が一斉更新のため不採用")
                 dates = []
+        sitemap_dates = list(dates)
         rss = dates_from_rss(
             f, base, res.media_path if res.media_path.startswith("/") else ""
         )
@@ -470,8 +517,14 @@ def measure(row: dict) -> Result:
             last = max(dates)
             res.last_date = last.isoformat()
             res.days_since_last = (today - last).days
-            res.posts_90d = sum(1 for d in dates if (today - d).days <= 90)
-            res.posts_365d = sum(1 for d in dates if (today - d).days <= 365)
+            # 本数は記事ごとに 1 つの日付（sitemap）で数え、RSS と二重に数えない
+            per_article = sitemap_dates or dates
+            res.posts_90d = sum(1 for d in per_article if (today - d).days <= 90)
+            res.posts_365d = sum(1 for d in per_article if (today - d).days <= 365)
+            res.stale_2y = sum(1 for d in sitemap_dates if (today - d).days > 730)
+        olds = old_year_titles(f, base, res.media_path)
+        res.old_year_titles = len(olds)
+        res.old_year_examples = " / ".join(olds[:3])[:200]
         check_contact(f, base, home_soup, res)
         res.requests_used = f.count
         if home is None and f.conn_errors:
