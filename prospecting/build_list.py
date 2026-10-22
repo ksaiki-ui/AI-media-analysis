@@ -47,53 +47,98 @@ def to_int(v: str) -> int | None:
 # 自分で書ける側・競合になる側（SaaS ベンダー、広告・制作・SEO 会社）。タイトルと説明文で判定する
 SELF_SERVE = re.compile(
     r"SaaS|クラウドサービス|マーケティング支援|SEO対策|SEOコンサル|広告代理|Web制作|ホームページ制作|"
-    r"コンテンツマーケティング|オウンドメディア(制作|運用|支援)|記事制作|ライティング代行"
+    r"コンテンツマーケティング|オウンドメディア(制作|運用|支援)|記事制作|ライティング代行|"
+    r"PR会社|ＰＲ会社|広報支援|マーケティング会社|デジタルマーケティング|Marketing"
+)
+# 個人向けの事業（BtoB の狙いから外れる）と、採用サイト（会社の HP ではない）
+NOT_B2B = re.compile(
+    r"学習塾|進学塾|個別指導|保育園|こども園|幼稚園|英会話スクール|教室|中途採用|新卒採用|採用サイト|RECRUIT|Recruit"
 )
 
-PATTERNS = ("停止", "リライト遅れ", "低頻度で継続")
+# 区分（HP の厚さ × 記事の量 × 更新の状態）。上ほど有望
+PATTERNS = ("少量×更新中", "厚めHP×記事なし", "少量×停止", "大量×停止")
+BASE_SCORE = {
+    "少量×更新中": 40,
+    "厚めHP×記事なし": 30,
+    "少量×停止": 30,
+    "大量×停止": 30,
+}
+MANY = 30  # 記事がこれ以上なら「大量」
+
+
+def flag(v: str) -> bool:
+    return str(v) == "True"
+
+
+def thick_hp(r: dict) -> tuple[bool, str]:
+    """HP が厚めか。ページ数・トップのリンク数・事例ページ・広告/MA のタグで決める"""
+    pages = to_int(r.get("site_pages")) or 0
+    links = to_int(r.get("home_links")) or 0
+    tags = ",".join(t for t in (r.get("ad_tags", ""), r.get("ma_tags", "")) if t)
+    why = []
+    if tags:
+        why.append(f"タグ:{tags}")
+    if pages >= 30:
+        why.append(f"{pages}ページ")
+    elif links >= 40:
+        why.append(f"トップのリンク{links}")
+    if flag(r.get("has_cases")):
+        why.append("事例あり")
+    thick = (
+        bool(tags)
+        or pages >= 30
+        or links >= 40
+        or (flag(r.get("has_cases")) and (pages >= 15 or links >= 25))
+    )
+    return thick, "・".join(why)
 
 
 def judge(r: dict) -> tuple[str, str, str]:
-    """(パターン, 優先度, 理由)。パターンは 停止 / リライト遅れ / 低頻度で継続 / 除外 / 要手確認"""
+    """(区分, 優先度, 理由)。区分は PATTERNS か 大量×更新中 / 簡易HPのみ / 除外 / 要手確認"""
     dom = r["domain"]
     if any(dom == e or dom.endswith("." + e) for e in EXCLUDE):
         return "除外", "", "除外リスト（大手・ポータル・代理店など）"
     if SELF_SERVE.search(r["site_title"] + " " + r["site_description"]):
         return "除外", "", "SaaS・広告・制作・SEOの会社（自分で書ける側）"
+    if NOT_B2B.search(r["site_title"] + " " + r["site_description"]):
+        return "除外", "", "個人向けの事業、または採用サイト"
     if r["error"]:
         return "要手確認", "", r["error"]
-    if not r["media_path"]:
-        return "除外", "", "記事メディアを検出できず"
-    days = to_int(r["days_since_last"])
     n = to_int(r["article_count"]) or 0
-    y365 = to_int(r["posts_365d"]) or 0
-    y90 = to_int(r["posts_90d"]) or 0
-    stale = to_int(r.get("stale_2y")) or 0
-    olds = to_int(r.get("old_year_titles")) or 0
-    if days is None:
-        return "要手確認", "", "公開日を取得できず"
-    if n and n < 5:
-        return "除外", "", f"記事が{n}本と少ない"
-    has_contact = bool(r["contact_url"])
-    prio = "高" if has_contact and (n >= 10 or n == 0) else "中"
-    if days >= 180:
-        return "停止", prio, f"{days}日更新なし・記事{n or '不明'}本"
-    # 書く体制がある会社は外す（sitemap の更新日も数えるので、リライトの多い会社もここで外れる）
-    if y90 >= 6:
-        return "除外", "", f"更新が活発（直近90日で{y90}本）"
-    rewrite = olds >= 2 or (n >= 30 and stale / n >= 0.5)
-    if rewrite:
-        why = []
-        if olds >= 2:
-            why.append(f"過ぎた年号の記事{olds}本")
-        if n >= 30 and stale / n >= 0.5:
-            why.append(f"2年以上手つかず{stale}/{n}本")
-        return "リライト遅れ", prio, "・".join(why)
-    if days <= 90 and 3 <= y365 <= 36:
-        return "低頻度で継続", prio, f"直近1年で{y365}本・最終{days}日前"
-    if days > 90:
-        return "停止", "中", f"{days}日更新なし（停滞気味）"
-    return "除外", "", f"直近1年で{y365}本（低頻度の範囲外）"
+    days = to_int(r["days_since_last"])
+    thick, hp_why = thick_hp(r)
+    has_media = bool(r["media_path"]) and (n >= 3 or (n == 0 and days is not None))
+    news = r.get("news_ratio")
+    news_only = news not in (None, "") and float(news) >= 0.5
+    if has_media and news_only:
+        has_media = False  # 投稿はあるが、お知らせ・求人ばかりで記事ではない
+    if not has_media:
+        if thick:
+            pattern = "厚めHP×記事なし"
+            why = (
+                "投稿はお知らせ・求人のみ" if news_only else "記事メディアなし"
+            ) + f"・HPは厚め（{hp_why}）"
+        else:
+            return "簡易HPのみ", "", "記事メディアなし・HPも簡易"
+    elif days is None:
+        return "要手確認", "", "記事はあるが公開日を取得できず"
+    else:
+        many = n >= MANY
+        live = days <= 90
+        size = f"記事{n}本" if n else "記事数不明"
+        if many and live:
+            return "大量×更新中", "", f"{size}・最終{days}日前（体制あり）"
+        pattern = ("大量" if many else "少量") + ("×更新中" if live else "×停止")
+        why = f"{size}・最終{days}日前" + (f"・{hp_why}" if hp_why else "")
+    score = BASE_SCORE[pattern]
+    if r.get("ad_tags") or r.get("ma_tags"):
+        score += 20
+    if flag(r.get("has_cases")):
+        score += 10
+    if r["contact_url"]:
+        score += 10
+    prio = "高" if score >= 60 else ("中" if score >= 40 else "低")
+    return pattern, prio, why
 
 
 def ym(iso: str) -> str:
@@ -114,29 +159,24 @@ def site_name(r: dict) -> str:
 
 def hook(r: dict, pattern: str) -> str:
     n = to_int(r["article_count"]) or 0
-    head = f"{site_name(r)}様のホームページの記事を拝見しました。"
-    if pattern == "停止":
-        months = (to_int(r["days_since_last"]) or 0) // 30
-        count = f"{n}本の記事を公開されていますが、" if n else ""
+    head = f"{site_name(r)}様のホームページを拝見しました。"
+    if pattern == "厚めHP×記事なし":
         return (
-            f"{head}{count}最後の公開は{ym(r['last_date'])}で、"
-            f"{months}ヶ月ほど更新が止まっているようでしたのでご連絡しました。"
+            f"{head}サービスや会社のご紹介は充実されていますが、コラムやブログのような記事は"
+            "まだお持ちでないようでしたので、ご連絡しました。"
         )
-    if pattern == "リライト遅れ":
-        olds = to_int(r.get("old_year_titles")) or 0
-        stale = to_int(r.get("stale_2y")) or 0
-        if olds >= 2:
-            ex = r.get("old_year_examples", "").split(" / ")[0]
-            return f"{head}「{ex}」のように、年号の入った記事がそのままになっているようでしたのでご連絡しました。"
-        return f"{head}{n}本の記事のうち{stale}本ほどが2年以上更新されていないようでしたのでご連絡しました。"
-    y365 = to_int(r["posts_365d"]) or 0
-    return f"{head}直近1年で{y365}本ほど、継続して記事を出されているようでしたのでご連絡しました。"
+    count = f"{n}本ほど記事を公開されていて、" if n else "記事を公開されていて、"
+    if pattern.endswith("更新中"):
+        return f"{head}{count}最近も{ym(r['last_date'])}に更新されているのを拝見し、ご連絡しました。"
+    months = (to_int(r["days_since_last"]) or 0) // 30
+    return f"{head}{count}最後の公開が{ym(r['last_date'])}で、{months}ヶ月ほど止まっているようでしたのでご連絡しました。"
 
 
 OFFER = {
-    "停止": "止まっている記事づくりを、少ない手間で再開する方法をご提案できます。",
-    "リライト遅れ": "既存の記事のうち、どれから直すと効果が出やすいかの優先順位をご提案できます。",
-    "低頻度で継続": "今の体制のまま、記事を出すペースを上げる方法をご提案できます。",
+    "少量×更新中": "今の体制のまま、記事を出すペースを上げる方法をご提案できます。",
+    "厚めHP×記事なし": "記事を始めるなら、どのテーマから書くと問い合わせにつながりやすいかをご提案できます。",
+    "少量×停止": "止まっている記事づくりを、少ない手間で再開する方法をご提案できます。",
+    "大量×停止": "これまでの記事を活かしながら、少ない手間で更新を再開する方法をご提案できます。",
 }
 
 
@@ -145,7 +185,7 @@ def form_text(r: dict, pattern: str) -> str:
         f"{site_name(r)}\nご担当者様\n\n"
         "突然のご連絡失礼いたします。株式会社MIRAIKUでオウンドメディアの運用支援をしております。\n\n"
         f"{hook(r, pattern)}\n\n"
-        "御社の記事と同じ領域で、競合サイトがどのテーマで集客しているか、御社がまだ取れていないテーマは"
+        "御社と同じ領域で、競合サイトがどのテーマで集客しているか、御社がまだ取れていないテーマは"
         f"どこかを、1枚の簡易診断にまとめてお送りできます。費用はかかりません。{OFFER[pattern]}\n"
         "ご興味があれば、このフォームのご返信か下記までお知らせください。30分ほどのオンラインで"
         "内容をご説明します。\n\n"
@@ -173,7 +213,7 @@ def load_existing(path: str | None) -> set[str]:
 
 
 COLUMNS = [
-    "パターン",
+    "区分",
     "優先度",
     "理由",
     "領域",
@@ -184,6 +224,9 @@ COLUMNS = [
     "最終公開（推定）",
     "更新なし日数",
     "直近1年の公開・更新数",
+    "HPのページ数",
+    "広告・MAタグ",
+    "事例ページ",
     "2年以上手つかずの記事",
     "過ぎた年号の記事",
     "日付の出どころ",
@@ -218,7 +261,7 @@ def main(src: str, dst: str, existing: str | None = None) -> None:
         ok_target = pattern in PATTERNS
         out.append(
             {
-                "パターン": pattern,
+                "区分": pattern,
                 "優先度": prio,
                 "理由": why,
                 "領域": r["segment"],
@@ -229,6 +272,12 @@ def main(src: str, dst: str, existing: str | None = None) -> None:
                 "最終公開（推定）": r["last_date"] or None,
                 "更新なし日数": to_int(r["days_since_last"]),
                 "直近1年の公開・更新数": to_int(r["posts_365d"]),
+                "HPのページ数": to_int(r.get("site_pages"))
+                or to_int(r.get("home_links")),
+                "広告・MAタグ": ",".join(
+                    t for t in (r.get("ad_tags", ""), r.get("ma_tags", "")) if t
+                ),
+                "事例ページ": "あり" if flag(r.get("has_cases")) else "",
                 "2年以上手つかずの記事": to_int(r.get("stale_2y")),
                 "過ぎた年号の記事": r.get("old_year_examples", ""),
                 "日付の出どころ": r["date_source"],
@@ -248,12 +297,17 @@ def main(src: str, dst: str, existing: str | None = None) -> None:
                 "結果メモ": "",
             }
         )
-    order = {"低頻度で継続": 0, "リライト遅れ": 1, "停止": 2, "要手確認": 3, "除外": 4}
+    order = {p: i for i, p in enumerate(PATTERNS)} | {
+        "要手確認": 4,
+        "大量×更新中": 5,
+        "簡易HPのみ": 6,
+        "除外": 7,
+    }
+    prank = {"高": 0, "中": 1, "低": 2, "": 3}
     out.sort(
         key=lambda x: (
-            order[x["パターン"]],
-            x["優先度"] != "高",
-            -(x["更新なし日数"] or 0),
+            prank[x["優先度"]] if x["区分"] in PATTERNS else 9,
+            order[x["区分"]],
         )
     )
 
@@ -269,7 +323,7 @@ def main(src: str, dst: str, existing: str | None = None) -> None:
         c.fill = head
         c.alignment = Alignment(vertical="center", wrap_text=True)
     widths = {
-        "パターン": 12,
+        "区分": 14,
         "優先度": 6,
         "理由": 26,
         "領域": 12,
@@ -310,44 +364,47 @@ def main(src: str, dst: str, existing: str | None = None) -> None:
     ws.auto_filter.ref = ws.dimensions
 
     s = wb.create_sheet("集計")
-    s.append(["パターン", "件数", "うち優先度・高"])
+    s.append(["区分", "件数", "優先度・高", "優先度・中", "優先度・低"])
     for k in order:
+        rows_k = [o for o in out if o["区分"] == k]
         s.append(
-            [
-                k,
-                sum(1 for o in out if o["パターン"] == k),
-                sum(1 for o in out if o["パターン"] == k and o["優先度"] == "高"),
-            ]
+            [k, len(rows_k)]
+            + [sum(1 for o in rows_k if o["優先度"] == p) for p in ("高", "中", "低")]
         )
     s.append([])
-    s.append(["パターンの基準（上から順に当てはめる）"])
-    s.append(
-        ["停止", "最終公開から180日以上（90〜179日は「停滞気味」として優先度・中）"]
-    )
+    s.append(["区分の基準"])
     s.append(
         [
-            "リライト遅れ",
-            "「2024年版」など過ぎた年号の記事が2本以上、または記事30本以上で半分以上が2年以上手つかず",
+            "少量×更新中",
+            f"記事{MANY}本未満・最終公開90日以内。細々と続けている／始めたばかり",
         ]
     )
     s.append(
         [
-            "低頻度で継続",
-            "最終公開が90日以内で、直近1年の公開・更新が3〜36本（直近90日は5本まで）",
+            "厚めHP×記事なし",
+            "記事メディアなし。HPは30ページ以上、広告・MAのタグ、事例ページのどれかあり（Web予算あり・未着手）",
         ]
     )
-    s.append(["優先度・高", "問い合わせ導線あり、かつ記事10本以上（本数不明を含む）"])
+    s.append(
+        ["少量×停止", f"記事{MANY}本未満・最終公開から91日以上。挑戦したが続かなかった"]
+    )
+    s.append(
+        ["大量×停止", f"記事{MANY}本以上・最終公開から91日以上。過去に力を入れていた"]
+    )
+    s.append(
+        ["大量×更新中（対象外）", f"記事{MANY}本以上・最終公開90日以内。体制・外注あり"]
+    )
+    s.append(["簡易HPのみ（対象外）", "記事メディアなし・HPも簡易"])
     s.append(
         [
-            "除外",
-            "除外リスト／SaaS・広告・制作・SEOの会社／記事メディアなし／記事5本未満／直近90日で6本以上（活発）",
+            "優先度",
+            "区分の基礎点（少量×更新中40、他30）＋広告/MAタグ20＋事例ページ10＋問い合わせ導線10。60以上=高、40以上=中",
         ]
     )
-    s.append(["要手確認", "接続できない・日付が取れない。人が開いて確認する"])
-    s.column_dimensions["A"].width = 18
+    s.column_dimensions["A"].width = 22
     s.column_dimensions["B"].width = 80
     wb.save(dst)
-    counts = {k: sum(1 for o in out if o["パターン"] == k) for k in order}
+    counts = {k: sum(1 for o in out if o["区分"] == k) for k in order}
     print(dst, counts)
 
 

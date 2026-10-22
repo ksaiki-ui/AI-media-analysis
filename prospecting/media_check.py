@@ -23,7 +23,9 @@ import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
+from dataclasses import fields as dataclass_fields
 from datetime import date, datetime, timezone
+from pathlib import Path
 from urllib import robotparser
 from urllib.parse import urljoin, urlparse
 
@@ -63,6 +65,25 @@ MEDIA_SEGMENTS = [
 ]
 # この下の階層はメディアとみなさない（IR資料・採用・会社案内など）
 NOT_MEDIA_TOP = {"ir", "recruit", "company", "corporate", "about"}
+AD_TAGS = {
+    "Google広告": re.compile(r"AW-\d{6,}|googleadservices|googlesyndication"),
+    "Yahoo広告": re.compile(r"yjads|s\.yimg\.jp/images/listing/tool/cv|ytag\("),
+    "Meta広告": re.compile(r"connect\.facebook\.net/[^\"']*/fbevents|fbq\("),
+    "LINE広告": re.compile(r"tr\.line\.me|_lt\("),
+}
+MA_TAGS = {
+    "HubSpot": re.compile(r"js\.hs-scripts\.com|js\.hsforms\.net|hs-analytics"),
+    "Marketo": re.compile(r"munchkin|mktoForms"),
+    "Pardot": re.compile(r"pi\.pardot\.com|pardot"),
+    "SATORI": re.compile(r"satori\.marketing|satori\.segs"),
+    "b→dash": re.compile(r"bdash-cloud|b-dash"),
+    "List Finder": re.compile(r"list-finder"),
+    "SHANON": re.compile(r"shanon-services"),
+}
+CASES_HINT = re.compile(
+    r"(case|cases|jirei|works|achievement|voice)(/|\.html|$)|導入事例|お客様の声|実績",
+    re.IGNORECASE,
+)
 CONTACT_HINT = re.compile(
     r"contact|inquiry|toiawase|otoiawase|お問い?合わせ|お問合せ|ご相談|資料請求",
     re.IGNORECASE,
@@ -96,6 +117,16 @@ class Result:
     )
     old_year_titles: int = 0  # 「2024年版」のような過ぎた年号が入った記事タイトルの数
     old_year_examples: str = ""
+    news_ratio: float | None = (
+        None  # RSS の題名のうちお知らせ・求人らしいものの割合（記事でない投稿の見分け）
+    )
+    site_pages: int = 0  # sitemap に載っているページ数（HP の厚さ）
+    home_links: int = (
+        0  # トップページからの同じサイト内へのリンク数（sitemap が無いときの厚さ）
+    )
+    has_cases: bool = False  # 導入事例・実績のページがある
+    ad_tags: str = ""  # 広告のタグ（Web 予算がある証拠）
+    ma_tags: str = ""  # MA・CRM のタグ
     contact_url: str = ""
     no_sales_notice: bool = False
     robots_blocked: bool = False
@@ -281,6 +312,33 @@ def seed_media_path(seed_url: str) -> str:
     return ""
 
 
+MEDIA_LABEL = re.compile(
+    r"コラム|ブログ|お役立ち|ナレッジ|オウンドメディア|基礎知識|用語集|ノウハウ|blog|column",
+    re.IGNORECASE,
+)
+
+
+def home_media_link(soup: BeautifulSoup, base: str) -> str:
+    """トップページのリンクから、記事メディアらしい URL を 1 つ選ぶ"""
+    host = urlparse(base).netloc.removeprefix("www.")
+    votes: dict[str, int] = {}
+    for a in soup.find_all("a", href=True):
+        u = urljoin(base, a["href"]).split("#")[0]
+        pu = urlparse(u)
+        if pu.netloc.removeprefix("www.") != host:
+            continue
+        segs = [x for x in pu.path.split("/") if x]
+        if not segs or segs[0].lower() in NOT_MEDIA_TOP:
+            continue
+        label = a.get_text(" ", strip=True)
+        if segs[0].lower() in MEDIA_SEGMENTS or (
+            MEDIA_LABEL.search(label) and len(label) <= 20
+        ):
+            key = f"{pu.scheme}://{pu.netloc}/{segs[0]}/x"
+            votes[key] = votes.get(key, 0) + 1
+    return max(votes, key=votes.get) if votes else ""
+
+
 def find_media_path(urls: list[str], seed_url: str) -> str:
     """記事が最も多いメディアらしいパスの先頭（例: /column/）"""
     counts: dict[str, int] = {}
@@ -364,14 +422,25 @@ OLD_YEAR = re.compile(
 )
 
 
-def old_year_titles(f: Fetcher, base: str, media_path: str) -> list[str]:
-    """メディアの一覧ページと RSS の記事タイトルから、過ぎた年号の入ったものを拾う"""
+NEWS_TITLE = re.compile(
+    r"お知らせ|急募|時給|日給|月給|【長期】|【短期】|勤務地|募集中|採用情報|休業|年末年始|夏季|営業日|営業時間|掲載|開催|出展|プレスリリース|"
+    r"就任|移転|リニューアル|更新しました|公開しました|開設|受賞|取得しました|のご案内|メンテナンス"
+)
+
+
+def media_titles(f: Fetcher, base: str, media_path: str) -> tuple[list[str], list[str]]:
+    """メディアの一覧ページと RSS から (全タイトル, RSS のタイトル) を集める"""
     titles: list[str] = []
+    rss_titles: list[str] = []
     urls = [urljoin(base, media_path)] if media_path.startswith("/") else []
     urls.append(
         urljoin(base, (media_path if media_path.startswith("/") else "/") + "feed/")
     )
+    if media_path.startswith("/"):
+        urls.append(urljoin(base, "/feed/"))
     for u in urls:
+        if u == urljoin(base, "/feed/") and len(urls) > 2 and rss_titles:
+            continue  # メディアの RSS が取れたらサイト全体の RSS は見ない
         r = f.get(u)
         if r is None:
             continue
@@ -385,10 +454,18 @@ def old_year_titles(f: Fetcher, base: str, media_path: str) -> list[str]:
             if b"<rss" in r.content[:2000]
             else soup.find_all(["a", "h2", "h3"])
         )
-        for t in tags:
+        is_rss = b"<rss" in r.content[:2000]
+        for t in tags[1:] if is_rss else tags:  # RSS の先頭はサイト名
             txt = t.get_text(" ", strip=True)
             if 10 <= len(txt) <= 80:
                 titles.append(txt)
+            if is_rss and txt:
+                rss_titles.append(txt)
+    return titles, rss_titles
+
+
+def old_year_titles(titles: list[str]) -> list[str]:
+    """過ぎた年号の入った記事タイトルを拾う"""
     this_year = date.today().year
     out = []
     for t in dict.fromkeys(titles):
@@ -444,15 +521,36 @@ def measure(row: dict) -> Result:
                 "title"
             )
             res.site_title = (
-                t.get("content")
+                (t.get("content") or "")
                 if t and t.name == "meta"
                 else (t.get_text(strip=True) if t else "")
             )[:120]
             d = home_soup.find("meta", attrs={"name": "description"})
             res.site_description = (d.get("content", "") if d else "")[:200]
+            html = home.text
+            res.ad_tags = ",".join(k for k, rx in AD_TAGS.items() if rx.search(html))
+            res.ma_tags = ",".join(k for k, rx in MA_TAGS.items() if rx.search(html))
+            host = urlparse(base).netloc.removeprefix("www.")
+            inner = {
+                urljoin(base, a["href"]).split("#")[0]
+                for a in home_soup.find_all("a", href=True)
+                if urlparse(urljoin(base, a["href"])).netloc.removeprefix("www.")
+                == host
+            }
+            res.home_links = len(inner)
+            # 会社のトップ URL しか分からないときは、メニューのブログ・コラムへのリンクを手がかりにする
+            if not seed_media_path(seed):
+                nav = home_media_link(home_soup, base)
+                if nav:
+                    seed = nav
+            res.has_cases = any(
+                CASES_HINT.search(a.get_text(" ", strip=True) + " " + a["href"])
+                for a in home_soup.find_all("a", href=True)
+            )
 
         entries = collect_sitemap_entries(f, base, seed_media_path(seed))
         urls = [u for u, _, _ in entries]
+        res.site_pages = len(set(urls))
         res.media_path = find_media_path(urls, seed)
         if res.media_path == "/column*.html":
             in_media = [
@@ -522,7 +620,12 @@ def measure(row: dict) -> Result:
             res.posts_90d = sum(1 for d in per_article if (today - d).days <= 90)
             res.posts_365d = sum(1 for d in per_article if (today - d).days <= 365)
             res.stale_2y = sum(1 for d in sitemap_dates if (today - d).days > 730)
-        olds = old_year_titles(f, base, res.media_path)
+        titles, rss_titles = media_titles(f, base, res.media_path)
+        if rss_titles:
+            res.news_ratio = round(
+                sum(1 for t in rss_titles if NEWS_TITLE.search(t)) / len(rss_titles), 2
+            )
+        olds = old_year_titles(titles)
         res.old_year_titles = len(olds)
         res.old_year_examples = " / ".join(olds[:3])[:200]
         check_contact(f, base, home_soup, res)
@@ -537,8 +640,13 @@ def measure(row: dict) -> Result:
 def main(src: str, dst: str) -> None:
     with open(src, newline="", encoding="utf-8") as fh:
         rows = list(csv.DictReader(fh))
+    # 途中で止まっても続きから測れるよう、出力済みのドメインは飛ばし、1 社ごとに追記する
+    done: set[str] = set()
+    if Path(dst).exists():
+        with open(dst, newline="", encoding="utf-8") as fh:
+            done = {r["domain"] for r in csv.DictReader(fh)}
     # 同一ドメインは最初の1件だけ
-    uniq, seen = [], set()
+    uniq, seen = [], set(done)
     for r in rows:
         d = (
             urlparse(r["url"] if "://" in r["url"] else "https://" + r["url"])
@@ -548,19 +656,25 @@ def main(src: str, dst: str) -> None:
         if d and d not in seen:
             seen.add(d)
             uniq.append(r)
-    with ThreadPoolExecutor(max_workers=8) as ex:
-        results = list(ex.map(measure, uniq))
-    fields = list(asdict(results[0]).keys()) if results else []
-    with open(dst, "w", newline="", encoding="utf-8") as fh:
+    fields = [f.name for f in dataclass_fields(Result)]
+    new_file = not done
+    n = 0
+    with (
+        open(dst, "a", newline="", encoding="utf-8") as fh,
+        ThreadPoolExecutor(max_workers=16) as ex,
+    ):
         w = csv.DictWriter(fh, fieldnames=fields)
-        w.writeheader()
-        for r in results:
-            d = asdict(r)
+        if new_file:
+            w.writeheader()
+        for res in ex.map(measure, uniq):
+            d = asdict(res)
             d["notes"] = " / ".join(d["notes"])
             w.writerow(d)
-    print(
-        f"{len(results)} domains measured at {datetime.now(timezone.utc).isoformat()}"
-    )
+            fh.flush()
+            n += 1
+            if n % 100 == 0:
+                print(n, "/", len(uniq), flush=True)
+    print(f"{n} domains measured at {datetime.now(timezone.utc).isoformat()}")
 
 
 if __name__ == "__main__":
