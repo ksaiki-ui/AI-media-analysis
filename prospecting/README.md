@@ -84,3 +84,18 @@ python3 prospecting/build_list.py /tmp/measured.csv target_list_2026-10-22.xlsx 
 最初はその半分（月 250〜300 件、3パターンで月 150 件前後の新規）から始め、実績のアポ率で量を決め直します。
 1 回の検索で使える中小企業のサイトは 6〜9 件ほど、そのうち 3 パターンに残るのは 2 割前後なので、
 週 100〜150 件の候補を計測に回すのが目安です。
+
+## 問い合わせの文面（outreach_copy.py）
+
+`build_outreach.py` が架電・フォーム用の xlsx を作るとき、文面は `outreach_copy.py` が組み立てる。
+共通の型（名乗り・無料の簡易診断の申し出・LP と資料のリンク・順位を約束しない旨・配信停止・署名）に、
+区分と計測した事実から作る会社ごとの段落と、業種ごとの一文を差し込む。xlsx の「文面の設計」シートに中身の一覧がある。
+
+```bash
+# links.json: {"lp": "https://...", "deck": "https://...", "campaign": "2026-11"}
+python3 prospecting/build_outreach.py target_list.xlsx enriched.csv gbiz.csv universe/jassa.csv outreach.xlsx links.json
+```
+
+- LP の URL には会社ごとの番号を UTM で付け、どの会社が開いたかを数えられるようにする（claude.ai の URL には付けない）
+- 広告・MA のツール名は文面に書かない。人材派遣協会の名簿の会社は、社名や事業概要で人材と分かるときだけ業種の一文を入れる
+- 文字数の上限が厳しいフォームには「短い文面」（300 字以内）を使う

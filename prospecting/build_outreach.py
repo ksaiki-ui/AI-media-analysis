@@ -1,24 +1,31 @@
 """対象リストに会社情報・電話番号・フォームの調査結果を足し、架電用とフォーム用のシートにする。
 
 使い方:
-  python3 prospecting/build_outreach.py target_list.xlsx enriched.csv gbiz.csv jassa.csv out.xlsx
+  python3 prospecting/build_outreach.py target_list.xlsx enriched.csv gbiz.csv jassa.csv out.xlsx [links.json]
 
 - target_list.xlsx: build_list.py の出力（区分・優先度・一言目・フォーム文面）
 - enriched.csv: contact_enrich.py の出力（電話番号・フォームの中身）
 - gbiz.csv: domain と gBizINFO の会社情報（正式社名・代表者・従業員数・所在地・法人番号・事業概要）
 - jassa.csv: universe/jassa.csv（gBizINFO に無い会社の所在地）
+- links.json: {"lp": LP の URL, "deck": サービス資料の URL, "campaign": 計測の名前}（無ければ差し込み欄のまま）
+
+文面は outreach_copy.py が組み立てる（共通の型＋会社ごとの段落）。
 """
 
 from __future__ import annotations
 
 import csv
+import json
 import sys
+from pathlib import Path
 from urllib.parse import urlparse
 
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
+
+import outreach_copy as copy
 
 TARGET = ("少量×更新中", "少量×停止", "大量×停止")
 CALL_STATUS = [
@@ -31,7 +38,6 @@ CALL_STATUS = [
     "対象外",
 ]
 FORM_STATUS = ["未送信", "送信済", "送信できず", "送らない"]
-SIGNATURE = "\n――――――――\n株式会社MIRAIKU\n【担当者名】\n【メール】\n【電話】\n"
 
 
 def dom(u: str) -> str:
@@ -40,6 +46,11 @@ def dom(u: str) -> str:
         .netloc.lower()
         .removeprefix("www.")
     )
+
+
+def read_csv(path: str) -> list[dict]:
+    with open(path, encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
 
 
 def send_route(c: dict) -> tuple[str, str]:
@@ -90,7 +101,17 @@ def style(
     ws.auto_filter.ref = ws.dimensions
 
 
-def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> None:
+def main(
+    target_xlsx: str,
+    enriched: str,
+    gbiz: str,
+    jassa: str,
+    dst: str,
+    links_json: str = "",
+) -> None:
+    links = (
+        json.loads(Path(links_json).read_text(encoding="utf-8")) if links_json else {}
+    )
     ws = load_workbook(target_xlsx, read_only=True)["リスト"]
     rows = list(ws.iter_rows(values_only=True))
     head = rows[0]
@@ -100,12 +121,9 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
         if d["区分"] in TARGET
         or (d["区分"] == "厚めHP×記事なし" and d["優先度"] == "高")
     ]
-    contact = {r["domain"]: r for r in csv.DictReader(open(enriched, encoding="utf-8"))}
-    info = {r["domain"]: r for r in csv.DictReader(open(gbiz, encoding="utf-8"))}
-    jassa_addr = {
-        dom(r["url"]): r["address"]
-        for r in csv.DictReader(open(jassa, encoding="utf-8"))
-    }
+    contact = {r["domain"]: r for r in read_csv(enriched)}
+    info = {r["domain"]: r for r in read_csv(gbiz)}
+    jassa_addr = {dom(r["url"]): r["address"] for r in read_csv(jassa)}
     # 従業員 300 人を超える会社は狙い（マーケ専任なし〜1人体制）から外れるので除く
     targets = [
         d
@@ -133,6 +151,7 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
         "会社名",
         "電話番号",
         "架電の一言目",
+        "架電の問いかけ",
         "代表者",
         "従業員数",
         "所在地",
@@ -168,7 +187,9 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
         "CAPTCHA",
         "確認画面",
         "同意チェック",
+        "件名",
         "フォーム文面",
+        "短い文面",
         "送信状態",
         "送信日",
         "メモ",
@@ -180,9 +201,8 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
         c = contact.get(dmn, {})
         g = info.get(dmn, {})
         name = g.get("正式社名") or d["サイト名"]
-        hook = (d["架電の一言目"] or "").replace(f"{d['サイト名']}様", f"{name}様", 1)
-        text = (d["フォーム文面"] or "").replace(d["サイト名"], name, 1)
         route, why = send_route(c)
+        sendable = route not in ("送らない", "フォームなし")
         corp = g.get("法人番号", "")
         call.append(
             [
@@ -191,7 +211,8 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
                 d["優先度"],
                 name,
                 c.get("phone", ""),
-                hook,
+                copy.call_opener(d, name),
+                copy.CALL_QUESTION[d["区分"]],
                 g.get("代表者", ""),
                 int(g["従業員数"]) if g.get("従業員数", "").isdigit() else None,
                 g.get("所在地") or jassa_addr.get(dmn, ""),
@@ -232,9 +253,11 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
                 c.get("captcha", ""),
                 "あり" if c.get("confirm_step") == "True" else "",
                 "あり" if c.get("privacy_consent") == "True" else "",
-                (text + SIGNATURE)
-                if route not in ("送らない", "フォームなし") and text
+                copy.subject(d, name) if sendable else "",
+                copy.form_message(d, name, links, n, summary=g.get("事業概要", ""))
+                if sendable
                 else "",
+                copy.short_message(d, name, links, n) if sendable else "",
                 "送らない" if route == "送らない" else "未送信",
                 "",
                 "",
@@ -249,6 +272,7 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
             "会社名": 28,
             "電話番号": 14,
             "架電の一言目": 60,
+            "架電の問いかけ": 40,
             "代表者": 14,
             "所在地": 30,
             "事業概要": 40,
@@ -261,7 +285,7 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
             "結果メモ": 30,
             "次のアクション": 20,
         },
-        {"架電の一言目", "事業概要", "結果メモ"},
+        {"架電の一言目", "架電の問いかけ", "事業概要", "結果メモ"},
         "ステータス",
         CALL_STATUS,
     )
@@ -277,11 +301,13 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
             "問い合わせURL": 36,
             "フォームの種類": 14,
             "入力欄": 30,
+            "件名": 30,
             "フォーム文面": 70,
+            "短い文面": 50,
             "送信状態": 12,
             "メモ": 24,
         },
-        {"理由", "入力欄", "フォーム文面"},
+        {"理由", "入力欄", "件名", "フォーム文面", "短い文面"},
         "送信状態",
         FORM_STATUS,
     )
@@ -324,9 +350,19 @@ def main(target_xlsx: str, enriched: str, gbiz: str, jassa: str, dst: str) -> No
     )
     s.column_dimensions["A"].width = 40
     s.column_dimensions["B"].width = 90
+
+    ds = wb.create_sheet("文面の設計", 0)
+    for r in copy.design_rows():
+        ds.append(r)
+    for col, w in (("A", 24), ("B", 80), ("C", 50)):
+        ds.column_dimensions[col].width = w
+    for row in ds.iter_rows():
+        for c in row:
+            c.alignment = Alignment(vertical="top", wrap_text=True)
+    wb.move_sheet("文面の設計", offset=3)
     wb.save(dst)
     print(dst, len(targets), routes)
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:6])
+    main(*sys.argv[1:7])
