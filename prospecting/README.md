@@ -99,3 +99,20 @@ python3 prospecting/build_outreach.py target_list.xlsx enriched.csv gbiz.csv uni
 - LP の URL には会社ごとの番号を UTM で付け、どの会社が開いたかを数えられるようにする（claude.ai の URL には付けない）
 - 広告・MA のツール名は文面に書かない。人材派遣協会の名簿の会社は、社名や事業概要で人材と分かるときだけ業種の一文を入れる
 - 文字数の上限が厳しいフォームには「短い文面」（300 字以内）を使う
+
+## 問い合わせフォームの入力補助（form_assist.py）
+
+入力までを済ませ、**送信ボタンは人が押す**ツール。CAPTCHA には触れない。手元の PC で動かす（ブラウザが開く）。
+
+```bash
+pip install playwright openpyxl
+python -m playwright install chromium
+# sender.json に送り主の情報を入れる（sender_template.json を写して書き換える）
+python form_assist.py outreach_2026-10-25.xlsx sender.json --limit 20
+```
+
+- 1 社ずつブラウザで開いて入力する。内容を確かめ、CAPTCHA があれば解いて送信ボタンを押し、ターミナルで Enter（送信した）／s（飛ばす）／n（送らない）／q（終了）を入れる
+- 結果は xlsx と同じフォルダの `outreach_log.csv` に残り、送信した・送らないにした会社は次から飛ばす
+- 「求職者向けの応募フォームらしい」と出た会社は送らない。本文を入れられなかったときはターミナルに文面を出すので手で貼る
+- チェックボックスはマウスで押さない（同意文の中のリンクを押してページを離れることがあるため）
+- `--dry-run --shots shots/` で、送らずに入力の結果だけを画面の画像に残せる
